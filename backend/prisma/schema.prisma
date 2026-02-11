@@ -12,3 +12,129 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id         Int     @id @default(autoincrement())
+  username   String  @unique
+  email      String  @unique
+  password   String
+  profileUrl String?
+
+  posts        Post[]
+  postLikes    PostLike[]
+  commentLikes CommentLike[]
+  messages     Message[]
+  userChats    UserChat[]
+  comments     Comment[]
+
+  followers Follow[] @relation("followers")
+  following Follow[] @relation("following")
+
+  @@index([username])
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  content   String?
+  imageUrl  String?
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  createdAt DateTime @default(now())
+
+  likes    PostLike[]
+  comments Comment[]
+
+  @@index([authorId])
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String?
+  imageUrl  String?
+  parentId  Int?
+  postId    Int
+  authorId  Int
+  createdAt DateTime @default(now())
+
+  parent  Comment?  @relation("CommentToReplies", fields: [parentId], references: [id])
+  replies Comment[] @relation("CommentToReplies")
+
+  post   Post @relation(fields: [postId], references: [id])
+  author User @relation(fields: [authorId], references: [id])
+
+  commentLikes CommentLike[]
+
+  @@index([postId])
+  @@index([authorId])
+}
+
+model PostLike {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([postId, userId])
+}
+
+model CommentLike {
+  id        Int      @id @default(autoincrement())
+  commentId Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  comment Comment @relation(fields: [commentId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@unique([commentId, userId])
+}
+
+model Chat {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  messages  Message[]
+  userChats UserChat[]
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String?
+  imageUrl  String?
+  userId    Int
+  chatId    Int
+  createdAt DateTime @default(now())
+
+  chat Chat @relation(fields: [chatId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([chatId])
+  @@index([userId])
+}
+
+model UserChat {
+  id     Int @id @default(autoincrement())
+  chatId Int
+  userId Int
+
+  chat Chat @relation(fields: [chatId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([chatId, userId])
+}
+
+model Follow {
+  id          Int      @id @default(autoincrement())
+  followerId  Int
+  followingId Int
+  createdAt   DateTime @default(now())
+
+  followers User @relation("followers", fields: [followerId], references: [id])
+  following User @relation("following", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
+}
