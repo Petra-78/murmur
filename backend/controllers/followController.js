@@ -8,7 +8,15 @@ export async function getFollowers(req, res) {
       where: {
         username,
       },
-      select: { followers: true },
+      select: {
+        followers: {
+          select: {
+            follower: {
+              select: { id: true, username: true, profileUrl: true },
+            },
+          },
+        },
+      },
     });
     res.json(followers);
   } catch (err) {
@@ -21,13 +29,45 @@ export async function getFollowing(req, res) {
   const { username } = req.params;
 
   try {
-    const followers = await prisma.user.findUnique({
+    const following = await prisma.user.findUnique({
       where: {
         username,
       },
-      select: { following: true },
+      select: {
+        following: {
+          select: {
+            following: {
+              select: { id: true, username: true, profileUrl: true },
+            },
+          },
+        },
+      },
     });
-    res.json(followers);
+    res.json({ following });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function followUser(req, res) {
+  debugger;
+  const { id } = req.user;
+  const { username } = req.params;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+
+    const followedUser = await prisma.follow.create({
+      data: {
+        followerId: id,
+        followingId: user.id,
+      },
+    });
+    res.json(followedUser);
   } catch (err) {
     console.log(err);
   }
