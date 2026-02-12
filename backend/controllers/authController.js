@@ -5,7 +5,6 @@ import bcrypt from "bcrypt";
 import { prisma } from "../lib/prisma.js";
 
 export async function postLogin(req, res, next) {
-  debugger;
   passport.authenticate("local", { session: false }, (err, user, info) => {
     if (err) return next(err);
     if (!user) return res.status(401).json({ message: info.message });
