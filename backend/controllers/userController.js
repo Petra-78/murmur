@@ -24,12 +24,24 @@ export async function getUsers(req, res) {
 }
 
 export async function getProfile(req, res) {
-  const { userId } = req.user;
+  debugger;
+  const { id } = req.user;
 
   try {
     const user = await prisma.user.findMany({
       where: {
-        id: userId,
+        id,
+      },
+      select: {
+        username: true,
+        profileUrl: true,
+        _count: {
+          select: {
+            posts: true,
+            followers: true,
+            following: true,
+          },
+        },
       },
     });
     res.json(user);
@@ -64,13 +76,64 @@ export async function getUser(req, res) {
   }
 }
 
+export async function getRecentUsers(req, res) {
+  const { id } = req.user;
+
+  try {
+    const recentUsers = await prisma.user.findMany({
+      where: {
+        NOT: {
+          id,
+        },
+      },
+      orderBy: { createdAt: "desc" },
+      select: {
+        username: true,
+        profileUrl: true,
+      },
+      take: 5,
+    });
+    res.json(recentUsers);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getPopularUsers(req, res) {
+  const { id } = req.user;
+
+  try {
+    const popularUsers = await prisma.user.findMany({
+      where: {
+        NOT: {
+          id,
+        },
+      },
+      orderBy: {
+        followers: {
+          _count: "desc",
+        },
+      },
+      select: {
+        username: true,
+        profileUrl: true,
+      },
+      take: 5,
+    });
+    res.json(popularUsers);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export async function updateUser(req, res) {
+  debugger;
   const { username, email } = req.body;
-  const { userId } = req.user;
+  const { id } = req.user;
 
   try {
     const updatedUser = await prisma.user.update({
-      where: { id: userId },
+      where: { id },
       data: {
         username,
         email,
@@ -89,7 +152,7 @@ export async function updateUser(req, res) {
 
 export async function uploadProfilePicture(req, res) {
   try {
-    const { userId } = req.user;
+    const { id } = req.user;
 
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
@@ -106,15 +169,15 @@ export async function uploadProfilePicture(req, res) {
     });
 
     const updatedUser = await prisma.user.update({
-      where: { id: userId },
+      where: { id },
       data: {
-        avatarUrl: uploadResult.secure_url,
+        profileUrl: uploadResult.secure_url,
       },
       select: {
         id: true,
         username: true,
         email: true,
-        avatarUrl: true,
+        profileUrl: true,
       },
     });
 
