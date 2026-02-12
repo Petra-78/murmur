@@ -11,6 +11,9 @@ export async function getPosts(req, res) {
           },
         },
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
     res.json(posts);
   } catch (err) {
@@ -65,6 +68,9 @@ export async function getUsersPosts(req, res) {
           },
         },
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
     if (userPosts.posts.length === 0) {
       return res.json({ message: "This user hasn't posted yet." });
@@ -87,6 +93,9 @@ export async function getPostsOfFollowing(req, res) {
       select: {
         followingId: true,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     const followingIds = following.map((f) => f.followingId);
@@ -108,6 +117,44 @@ export async function getPostsOfFollowing(req, res) {
     });
 
     res.json(posts);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function likePost(req, res) {
+  const { id } = req.user;
+  const postId = Number(req.params.postId);
+
+  try {
+    const isLiked = await prisma.postLike.findUnique({
+      where: {
+        postId_userId: {
+          postId,
+          userId: id,
+        },
+      },
+    });
+
+    if (isLiked) {
+      const dislikePost = await prisma.postLike.delete({
+        where: {
+          postId_userId: {
+            postId,
+            userId: id,
+          },
+        },
+      });
+      return res.json({ dislikedPost: dislikePost });
+    } else {
+      const likePost = await prisma.postLike.create({
+        data: {
+          postId,
+          userId: id,
+        },
+      });
+      return res.json({ likedPost: likePost });
+    }
   } catch (err) {
     console.log(err);
   }
