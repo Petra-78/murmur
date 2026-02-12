@@ -1,11 +1,10 @@
-
 import passport from "passport";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { prisma } from "../lib/prisma.js";
 
 const options = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), 
-  secretOrKey: process.env.JWT_SECRET, 
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.JWT_SECRET,
 };
 
 passport.use(
@@ -15,11 +14,11 @@ passport.use(
         where: { id: token.userId },
       });
       if (!user) return done(null, false);
-      return done(null, user); 
+      return done(null, user);
     } catch (err) {
       done(err, false);
     }
-  })
+  }),
 );
 
 export default passport;
