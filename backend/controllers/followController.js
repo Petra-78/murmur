@@ -69,6 +69,9 @@ export async function followUser(req, res) {
     });
     res.json(followedUser);
   } catch (err) {
+    if (err.code === "P2002") {
+      return res.status(409).json({ message: "User is already followed." });
+    }
     console.log(err);
   }
 }
