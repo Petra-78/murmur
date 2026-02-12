@@ -19,6 +19,7 @@ model User {
   email      String  @unique
   password   String
   profileUrl String?
+  createdAt  DateTime @default(now())
 
   posts        Post[]
   postLikes    PostLike[]
@@ -30,7 +31,8 @@ model User {
   followers Follow[] @relation("followers")
   following Follow[] @relation("following")
 
-  @@index([username])
+  @@index([username, createdAt(sort: Desc)])
+  
 }
 
 model Post {
@@ -137,4 +139,5 @@ model Follow {
   @@unique([followerId, followingId])
   @@index([followerId])
   @@index([followingId])
+
 }
