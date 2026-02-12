@@ -11,9 +11,7 @@ app.use(express.json());
 app.use(passport.initialize());
 
 app.use("/", authRouter);
-// app.use("/", passport.authenticate("jwt", { session: false }), (req, res) => {
-//   res.json({ message: "hi!" });
-// });
+
 app.use("/users", passport.authenticate("jwt", { session: false }), userRouter);
 app.use("/users", followerRouter);
 
