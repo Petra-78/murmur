@@ -72,3 +72,29 @@ export async function followUser(req, res) {
     console.log(err);
   }
 }
+
+export async function unfollowUser(req, res) {
+  debugger;
+  const { id } = req.user;
+  const { username } = req.params;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+
+    const unfollowedUser = await prisma.follow.delete({
+      where: {
+        followerId_followingId: {
+          followerId: id,
+          followingId: user.id,
+        },
+      },
+    });
+    res.json({ unfollowedUser: user });
+  } catch (err) {
+    console.log(err);
+  }
+}
