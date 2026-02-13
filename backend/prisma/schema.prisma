@@ -20,6 +20,7 @@ model User {
   password   String
   profileUrl String?
   createdAt  DateTime @default(now())
+  isGuest    Boolean @default(false)
 
   posts        Post[]
   postLikes    PostLike[]
