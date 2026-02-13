@@ -136,3 +136,47 @@ export async function sendMessage(req, res) {
     return res.json({ message: "Something went wrong" });
   }
 }
+
+export async function getMessages(req, res) {
+  debugger;
+  const { id } = req.user;
+  const selectedUserId = Number(req.params.selectedUserId);
+
+  try {
+    const chat = await prisma.chat.findFirst({
+      where: {
+        AND: [
+          { userChats: { some: { userId: id } } },
+          { userChats: { some: { userId: selectedUserId } } },
+        ],
+      },
+    });
+
+    if (!chat) {
+      return res.json([]);
+    }
+
+    const messages = await prisma.message.findMany({
+      where: {
+        chatId: chat.id,
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            profileUrl: true,
+          },
+        },
+      },
+    });
+
+    res.json(messages);
+  } catch (err) {
+    console.log(err);
+    res.json({ error: "Failed to fetch messages" });
+  }
+}
