@@ -1,7 +1,6 @@
 import { prisma } from "../lib/prisma.js";
 
 export async function getComments(req, res) {
-  debugger;
   const postId = Number(req.params.postId);
 
   try {
@@ -9,12 +8,20 @@ export async function getComments(req, res) {
       where: {
         postId,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
       include: {
         author: {
           select: {
             id: true,
             username: true,
             profileUrl: true,
+          },
+        },
+        _count: {
+          select: {
+            commentLikes: true,
           },
         },
       },
@@ -119,5 +126,44 @@ export async function deleteComment(req, res) {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Failed to delete comment" });
+  }
+}
+
+export async function likeComment(req, res) {
+  debugger;
+  const { id } = req.user;
+  const commentId = Number(req.params.commentId);
+
+  try {
+    const isLiked = await prisma.commentLike.findUnique({
+      where: {
+        commentId_userId: {
+          commentId,
+          userId: id,
+        },
+      },
+    });
+
+    if (isLiked) {
+      const dislikeComment = await prisma.commentLike.delete({
+        where: {
+          commentId_userId: {
+            commentId,
+            userId: id,
+          },
+        },
+      });
+      return res.json({ dislikedComment: dislikeComment });
+    } else {
+      const likeComment = await prisma.commentLike.create({
+        data: {
+          commentId,
+          userId: id,
+        },
+      });
+      return res.json({ likedComment: likeComment });
+    }
+  } catch (err) {
+    console.log(err);
   }
 }
