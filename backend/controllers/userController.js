@@ -127,7 +127,6 @@ export async function getPopularUsers(req, res) {
 }
 
 export async function updateUser(req, res) {
-  debugger;
   const { username, email } = req.body;
   const { id } = req.user;
 
@@ -151,6 +150,7 @@ export async function updateUser(req, res) {
 }
 
 export async function uploadProfilePicture(req, res) {
+  debugger;
   try {
     const { id } = req.user;
 
@@ -163,8 +163,8 @@ export async function uploadProfilePicture(req, res) {
     )}`;
 
     const uploadResult = await cloudinary.uploader.upload(base64, {
-      folder: "avatars",
-      public_id: `user_${userId}`,
+      folder: `murmur/profile_pictures/user_${req.user.username}`,
+      public_id: `${req.user.username}`,
       overwrite: true,
     });
 
