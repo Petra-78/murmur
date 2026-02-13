@@ -8,6 +8,7 @@ import {
   getPostsOfFollowing,
   getUsersPosts,
   likePost,
+  updatePost,
   uploadPost,
 } from "../controllers/postController.js";
 const router = Router();
@@ -21,6 +22,7 @@ router.get("/user/:username", getUsersPosts);
 
 router.post("/", upload.single("file"), uploadPost);
 
+router.put("/:postId", updatePost);
 router.delete("/:postId", deletePost);
 
 export { router as postRouter };

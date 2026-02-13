@@ -284,3 +284,69 @@ export async function uploadPost(req, res) {
     res.status(500).json({ error: "Failed to upload post" });
   }
 }
+
+export async function updatePost(req, res) {
+  const { id } = req.user;
+  const postId = Number(req.params.postId);
+  const content = req.body.content;
+
+  try {
+    const existingPost = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+
+    if (!existingPost) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    if (existingPost.authorId !== id) {
+      return res
+        .status(403)
+        .json({ error: "Not authorized to edit this post" });
+    }
+
+    let imageUrl = existingPost.imageUrl;
+
+    if (req.file) {
+      if (imageUrl) {
+        const publicId = existingPost.imageUrl.split("/").pop().split(".")[0];
+        await cloudinary.uploader.destroy(
+          `murmur/posts/user_${req.user.username}/post_images/${publicId}`,
+        );
+      }
+
+      imageUrl = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: `murmur/posts/user_${req.user.username}/post_images` },
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result.secure_url);
+          },
+        );
+        stream.end(req.file.buffer);
+      });
+    }
+
+    const updatedPost = await prisma.post.update({
+      where: { id: postId },
+      data: {
+        content: content !== undefined ? content : existingPost.content,
+        imageUrl,
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            username: true,
+            profileUrl: true,
+          },
+        },
+      },
+    });
+
+    res.json(updatedPost);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update post" });
+  }
+}
