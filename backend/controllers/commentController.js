@@ -91,3 +91,33 @@ export async function replyToComment(req, res) {
     res.json({ message: "Failed to post comment" });
   }
 }
+
+export async function deleteComment(req, res) {
+  const commentId = Number(req.params.commentId);
+  const { id } = req.user;
+
+  try {
+    const comment = await prisma.comment.findUnique({
+      where: { id: commentId },
+    });
+
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    if (comment.authorId !== id) {
+      return res
+        .status(403)
+        .json({ message: "Not allowed to delete this comment" });
+    }
+
+    const deletedComment = await prisma.comment.delete({
+      where: { id: commentId },
+    });
+
+    res.json({ deletedComment });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to delete comment" });
+  }
+}

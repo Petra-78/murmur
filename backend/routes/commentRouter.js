@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  deleteComment,
   getComments,
   postComment,
   replyToComment,
@@ -10,5 +11,6 @@ router.get("/:postId", getComments);
 
 router.post("/:postId", postComment);
 router.post("/:postId/:parentId", replyToComment);
+router.delete("/:commentId", deleteComment);
 
 export { router as commentRouter };
