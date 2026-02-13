@@ -13,4 +13,4 @@ router.get("/:username/following", getFollowing);
 router.post("/:username/follow", followUser);
 router.delete("/:username/unfollow", unfollowUser);
 
-export { router as followerRouter };
+export { router as followRouter };
