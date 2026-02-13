@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma.js";
+import cloudinary from "../config/cloudinary.js";
 
 export async function getPosts(req, res) {
   try {
@@ -222,5 +223,64 @@ export async function getLikedPosts(req, res) {
     res.json(posts);
   } catch (err) {
     console.log(err);
+  }
+}
+
+export async function deletePost(req, res) {
+  const postId = Number(req.params.postId);
+  try {
+    const deletedPost = await prisma.post.delete({
+      where: {
+        id: postId,
+      },
+    });
+    res.json({ deletedPost: deletedPost });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function uploadPost(req, res) {
+  debugger;
+  const { id } = req.user;
+  const { content } = req.body;
+
+  try {
+    let imageUrl = null;
+
+    if (req.file) {
+      imageUrl = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: `murmur/posts/user_${req.user.username}/post_images` },
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result.secure_url);
+          },
+        );
+        stream.end(req.file.buffer);
+      });
+    }
+
+    const post = await prisma.post.create({
+      data: {
+        content: content || "",
+        authorId: id,
+        imageUrl,
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            username: true,
+            profileUrl: true,
+          },
+        },
+      },
+    });
+
+    res.json(post);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to upload post" });
   }
 }
