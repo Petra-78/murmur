@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
 import bcrypt from "bcrypt";
 import { prisma } from "../lib/prisma.js";
+import crypto from "crypto";
 
 export async function postLogin(req, res, next) {
   passport.authenticate("local", { session: false }, (err, user, info) => {
@@ -24,6 +25,35 @@ export async function postLogin(req, res, next) {
       user: { username: user.username, profileUrl: user.profileUrl },
     });
   })(req, res, next);
+}
+
+export async function postGuestLogin(req, res, next) {
+  debugger;
+  const randomPwd = crypto.randomBytes(32).toString("hex");
+  const password = await bcrypt.hash(randomPwd, 10);
+  const guestUser = await prisma.user.create({
+    data: {
+      username: `guest_${Date.now()}`,
+      email: `guest_${Date.now()}@guest.murmur`,
+      password,
+      isGuest: true,
+    },
+  });
+
+  const token = jwt.sign(
+    {
+      userId: guestUser.id,
+      username: guestUser.username,
+      profileUrl: guestUser.profileUrl,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "2days" },
+  );
+
+  return res.json({
+    token,
+    user: { username: guestUser.username, profileUrl: guestUser.profileUrl },
+  });
 }
 
 export async function postSignup(req, res) {
