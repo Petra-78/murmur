@@ -10,6 +10,13 @@ export async function getPosts(req, res) {
             comments: true,
           },
         },
+        author: {
+          select: {
+            id: true,
+            username: true,
+            profileUrl: true,
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
@@ -36,6 +43,13 @@ export async function getPost(req, res) {
             comments: true,
           },
         },
+        author: {
+          select: {
+            id: true,
+            username: true,
+            profileUrl: true,
+          },
+        },
       },
     });
 
@@ -49,27 +63,28 @@ export async function getPost(req, res) {
 }
 
 export async function getUsersPosts(req, res) {
-  debugger;
   const { username } = req.params;
 
   try {
     const userPosts = await prisma.user.findUnique({
-      where: {
-        username,
-      },
+      where: { username },
       select: {
-        posts: true,
-      },
-      include: {
-        _count: {
-          select: {
-            likes: true,
-            comments: true,
+        id: true,
+        username: true,
+        profileUrl: true,
+        posts: {
+          orderBy: {
+            createdAt: "desc",
+          },
+          include: {
+            _count: {
+              select: {
+                likes: true,
+                comments: true,
+              },
+            },
           },
         },
-      },
-      orderBy: {
-        createdAt: "desc",
       },
     });
     if (userPosts.posts.length === 0) {
@@ -111,6 +126,13 @@ export async function getPostsOfFollowing(req, res) {
           select: {
             likes: true,
             comments: true,
+          },
+        },
+        author: {
+          select: {
+            id: true,
+            username: true,
+            profileUrl: true,
           },
         },
       },
@@ -155,6 +177,49 @@ export async function likePost(req, res) {
       });
       return res.json({ likedPost: likePost });
     }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getLikedPosts(req, res) {
+  const { id } = req.user;
+
+  try {
+    const likes = await prisma.postLike.findMany({
+      where: {
+        userId: id,
+      },
+      select: {
+        postId: true,
+      },
+    });
+
+    const postsIds = likes.map((l) => l.postId);
+
+    const posts = await prisma.post.findMany({
+      where: {
+        id: {
+          in: postsIds,
+        },
+      },
+      include: {
+        _count: {
+          select: {
+            likes: true,
+            comments: true,
+          },
+        },
+        author: {
+          select: {
+            id: true,
+            username: true,
+            profileUrl: true,
+          },
+        },
+      },
+    });
+    res.json(posts);
   } catch (err) {
     console.log(err);
   }
