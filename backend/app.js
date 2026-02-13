@@ -1,5 +1,6 @@
 import express from "express";
 import passport from "./config/jwtStrategy.js";
+import "dotenv/config";
 
 import { authRouter } from "./routes/authRouter.js";
 import { userRouter } from "./routes/userRouter.js";
