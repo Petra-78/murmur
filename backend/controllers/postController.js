@@ -228,15 +228,31 @@ export async function getLikedPosts(req, res) {
 
 export async function deletePost(req, res) {
   const postId = Number(req.params.postId);
+  const id = req.user;
+
   try {
-    const deletedPost = await prisma.post.delete({
-      where: {
-        id: postId,
-      },
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
     });
-    res.json({ deletedPost: deletedPost });
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    if (post.authorId !== id) {
+      return res
+        .status(403)
+        .json({ message: "You are not allowed to delete this post" });
+    }
+
+    const deletedPost = await prisma.post.delete({
+      where: { id: postId },
+    });
+
+    res.json({ deletedPost });
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    res.status(500).json({ message: "Failed to delete post" });
   }
 }
 
