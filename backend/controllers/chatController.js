@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma.js";
+import cloudinary from "../config/cloudinary.js";
 
 export async function getChats(req, res) {
   const { id } = req.user;
@@ -42,21 +43,22 @@ export async function getChats(req, res) {
                 },
               },
             },
-            orderBy: {
-              messages: {
-                _max: { createdAt: "desc" },
-              },
-            },
           },
         },
       },
     });
 
-    const formattedChats = chats.map((c) => ({
-      chatId: c.chat?.id,
-      otherUser: c.chat?.userChats?.[0]?.user || null,
-      lastMessage: c.chat?.messages?.[0] || null,
-    }));
+    const formattedChats = chats
+      .map((c) => ({
+        chatId: c.chat.id,
+        otherUser: c.chat.userChats[0]?.user || null,
+        lastMessage: c.chat.messages[0] || null,
+      }))
+      .sort((a, b) => {
+        const aTime = a.lastMessage?.createdAt?.getTime() || 0;
+        const bTime = b.lastMessage?.createdAt?.getTime() || 0;
+        return bTime - aTime;
+      });
 
     res.json(formattedChats);
   } catch (err) {
@@ -65,44 +67,72 @@ export async function getChats(req, res) {
   }
 }
 
-export async function createChat(req, res) {
-  try {
-    const { id } = req.user;
-    const { selectedUser } = req.body;
+async function findOrCreateChat(userId, selectedUserId) {
+  let chat = await prisma.chat.findFirst({
+    where: {
+      AND: [
+        { userChats: { some: { userId } } },
+        { userChats: { some: { userId: selectedUserId } } },
+      ],
+    },
+  });
 
-    const userExists = await prisma.user.findUnique({
-      where: { id: Number(selectedUser) },
-      select: { id: true },
-    });
-
-    if (!userExists) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const isExisting = await prisma.chat.findFirst({
-      where: {
-        AND: [
-          { userChats: { some: { userId: id } } },
-          { userChats: { some: { userId: Number(selectedUser) } } },
-        ],
-      },
-    });
-
-    if (isExisting) {
-      return res.json({ message: "Chat already exists", chat: isExisting });
-    }
-
-    const chat = await prisma.chat.create({
+  if (!chat) {
+    chat = await prisma.chat.create({
       data: {
         userChats: {
-          create: [{ userId: id }, { userId: Number(selectedUser) }],
+          create: [{ userId }, { userId: selectedUserId }],
+        },
+      },
+    });
+  }
+
+  return chat;
+}
+
+export async function sendMessage(req, res) {
+  const { id } = req.user;
+  const { selectedUser, content } = req.body;
+  try {
+    const chat = await findOrCreateChat(id, Number(selectedUser));
+
+    let imageUrl = null;
+    if (req.file) {
+      imageUrl = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            folder: `murmur/users/${req.user.username}/chats/chat_${selectedUser}_images`,
+          },
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result.secure_url);
+          },
+        );
+        stream.end(req.file.buffer);
+      });
+    }
+
+    const message = await prisma.message.create({
+      data: {
+        content: content || "",
+        userId: id,
+        chatId: chat.id,
+        imageUrl,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            profileUrl: true,
+          },
         },
       },
     });
 
-    res.json(chat);
+    return res.json(message);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.json({ message: "Something went wrong" });
   }
 }
