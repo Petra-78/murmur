@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  getLikedPosts,
   getPost,
   getPosts,
   getPostsOfFollowing,
@@ -10,6 +11,7 @@ const router = Router();
 
 router.get("/", getPosts);
 router.get("/following", getPostsOfFollowing);
+router.get("/liked", getLikedPosts);
 router.get("/:postId", getPost);
 router.post("/:postId/like", likePost);
 router.get("/user/:username", getUsersPosts);
