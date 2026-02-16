@@ -1,5 +1,6 @@
 import { prisma } from "../lib/prisma.js";
 import cloudinary from "../config/cloudinary.js";
+import { getIO } from "../server.js";
 
 export async function getChats(req, res) {
   const { id } = req.user;
@@ -129,6 +130,9 @@ export async function sendMessage(req, res) {
         },
       },
     });
+
+    const io = getIO();
+    io.to(`chat-${chat.id}`).emit("newMessage", message);
 
     return res.json(message);
   } catch (err) {
