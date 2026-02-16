@@ -1,5 +1,6 @@
 import express from "express";
 import passport from "./config/jwtStrategy.js";
+import cors from "cors";
 import "dotenv/config";
 
 import { createServer } from "node:http";
@@ -13,6 +14,15 @@ import { commentRouter } from "./routes/commentRouter.js";
 import { chatRouter } from "./routes/chatRouter.js";
 
 export const app = express();
+
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  }),
+);
 
 app.use(express.json());
 app.use(passport.initialize());
