@@ -1,10 +1,9 @@
 import express from "express";
 import passport from "./config/jwtStrategy.js";
 import "dotenv/config";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
-import { Server } from "socket.io";
+
 import { createServer } from "node:http";
+import { initSocket } from "./server.js";
 
 import { authRouter } from "./routes/authRouter.js";
 import { userRouter } from "./routes/userRouter.js";
@@ -18,21 +17,8 @@ export const app = express();
 app.use(express.json());
 app.use(passport.initialize());
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
 const server = createServer(app);
-const io = new Server(server);
-
-app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "test.html"));
-});
-
-io.on("connection", (socket) => {
-  console.log("a user connected", socket.id);
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-  });
-});
+initSocket(server);
 
 app.use("/", authRouter);
 
