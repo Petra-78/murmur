@@ -80,12 +80,6 @@ export default function Login() {
           Welcome to Murmur
         </h2>
 
-        {error && (
-          <p className="text-red-500 dark:text-[#A13333] text-sm mb-4 text-center">
-            {error}
-          </p>
-        )}
-
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <input
             type="email"
@@ -122,6 +116,12 @@ export default function Login() {
           dark:focus:ring-[#A13333]
           "
           />
+
+          {error && (
+            <p className="text-red-500 dark:text-[#A13333] text-sm mb-4 text-left">
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"
