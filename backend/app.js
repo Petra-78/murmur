@@ -30,6 +30,10 @@ app.use(passport.initialize());
 const server = createServer(app);
 initSocket(server);
 
+app.get("/", (req, res) => {
+  res.json({ message: "API is running" });
+});
+
 app.use("/", authRouter);
 
 app.use("/users", passport.authenticate("jwt", { session: false }), userRouter);
