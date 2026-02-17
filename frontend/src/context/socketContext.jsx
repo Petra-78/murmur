@@ -6,7 +6,6 @@ const SocketContext = createContext(null);
 export const SocketProvider = ({ children }) => {
   const socketRef = useRef(null);
   const [connected, setConnected] = useState(false);
-  debugger;
 
   useEffect(() => {
     if (socketRef.current) return;
@@ -14,7 +13,7 @@ export const SocketProvider = ({ children }) => {
     const socket = io("https://murmur-production.up.railway.app", {
       withCredentials: true,
       auth: {
-        token: localStorage.getItem("token"),
+        token: localStorage.getItem("jwt"),
       },
     });
 
