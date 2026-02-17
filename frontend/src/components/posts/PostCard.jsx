@@ -3,25 +3,30 @@ import { useAuth } from "../../context/authContext";
 import { formatDate } from "../../utils/dateFormatter";
 import LikeButton from "../buttons/LikeButton";
 import CommentButton from "../buttons/CommentButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-export default function PostCard() {
+export default function PostCard({ feed }) {
   const { token, user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState(null);
 
   useEffect(() => {
     async function fetchPosts() {
-      debugger;
+      setLoading(true);
+      let url;
+      if (feed === "posts")
+        url = "https://murmur-production.up.railway.app/posts";
+      if (feed === "following")
+        url =
+          "https://murmur-production.up.railway.app/posts/following";
       try {
-        const res = await fetch(
-          "https://murmur-production.up.railway.app/posts",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+        const res = await fetch(url, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        );
+        });
         if (!res.ok) {
           console.error("Failed to fetch posts");
           return;
@@ -35,40 +40,47 @@ export default function PostCard() {
     }
 
     fetchPosts();
-  }, []);
+  }, [feed]);
 
-  if (loading) return <p>Loading posts...</p>;
+  if (loading)
+    return (
+      <div className="flex flex-1 items-center justify-center">
+        <FontAwesomeIcon
+          className="text-5xl text-[#A13333]"
+          icon={faSpinner}
+          spin={true}
+        />
+      </div>
+    );
 
-  if (posts.length === 0) return <p>No posts yet.</p>;
+  if (posts.length === 0)
+    return <p className="dark:text-white">No posts yet.</p>;
 
   return (
     <>
       {posts.map((post) => (
         <div
           key={post.id}
-          className="
-        relative flex flex-col gap-3 p-4 rounded-2xl shadow-md max-w-2xl
-        transition-colors duration-500
-        bg-white/90 border border-[#e5d6d3]
-        dark:bg-[#040303]/90 dark:border-[#A13333]/30
-        "
+          className="relative flex w-full max-w-2xl cursor-pointer flex-col gap-3 rounded-2xl bg-white/90 p-4 shadow-lg shadow-red-800/20 transition-all duration-300 hover:shadow-2xl dark:bg-[#040303]/90"
         >
           <div className="flex items-center gap-2">
             <img
-              className="rounded-full h-12 w-12 border border-[#e5d6d3] dark:border-[#A13333]/50"
+              className="h-12 w-12 rounded-full border border-[#e5d6d3] dark:border-[#A13333]/50"
               src={post.author.profileUrl || "/placeholder.jpeg"}
               alt="profile picture"
             />
             <div className="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-300">
               <p className="font-semibold">{post.author.username}</p>
               <span>·</span>
-              <span className="text-xs">{formatDate(post.createdAt)}</span>
+              <span className="text-xs">
+                {formatDate(post.createdAt)}
+              </span>
             </div>
           </div>
 
           <div className="flex flex-col gap-2">
             {post.content && (
-              <p className="text-gray-800 dark:text-gray-100 text-lg text-left px-2">
+              <p className="px-2 text-left text-lg text-gray-800 dark:text-gray-100">
                 {post.content}
               </p>
             )}
@@ -76,12 +88,12 @@ export default function PostCard() {
               <img
                 src={post.imageUrl}
                 alt="post image"
-                className="rounded-xl max-h-96 w-full object-cover"
+                className="max-h-96 w-full rounded-xl object-cover"
               />
             )}
           </div>
 
-          <div className="flex items-center gap-3 mt-2">
+          <div className="mt-2 flex items-center gap-3">
             <LikeButton
               type="post"
               id={post.id}

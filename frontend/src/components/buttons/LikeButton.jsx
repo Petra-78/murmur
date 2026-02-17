@@ -55,8 +55,8 @@ export default function LikeButton({ likes, type, id, isLiked }) {
         icon={liked ? faHeart : faHeartRegular}
         className={`
           text-xl transition-colors duration-200
-          ${liked ? "text-[#A13333] dark:text-[#B3541E]" : "text-gray-400  dark:text-gray-300"}
-          hover:text-[#B3541E] dark:hover:text-[#A13333]
+          ${liked ? "text-[#A13333]" : "text-gray-400  dark:text-gray-300"}
+          hover:text-[#B3541E] 
         `}
       />
       <span className="text-xs font-medium">{likeNumber}</span>
