@@ -9,7 +9,6 @@ export function AuthProvider({ children }) {
   const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
-    debugger;
     const storedToken = localStorage.getItem("jwt");
     const storedUser = localStorage.getItem("user");
 

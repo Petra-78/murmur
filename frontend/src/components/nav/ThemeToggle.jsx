@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
-  debugger;
   const [dark, setDark] = useState(() => {
     if (typeof window === "undefined") return false;
 
