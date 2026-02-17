@@ -9,10 +9,9 @@ export async function postLogin(req, res, next) {
   passport.authenticate("local", { session: false }, (err, user, info) => {
     if (err) return next(err);
     if (!user) return res.status(401).json({ message: info.message });
-
     const token = jwt.sign(
       {
-        userId: user.id,
+        id: user.id,
         username: user.username,
         profileUrl: user.profileUrl,
       },
@@ -22,7 +21,11 @@ export async function postLogin(req, res, next) {
 
     return res.json({
       token,
-      user: { username: user.username, profileUrl: user.profileUrl },
+      user: {
+        id: user.id,
+        username: user.username,
+        profileUrl: user.profileUrl,
+      },
     });
   })(req, res, next);
 }

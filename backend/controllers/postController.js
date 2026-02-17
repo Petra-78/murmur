@@ -2,6 +2,7 @@ import { prisma } from "../lib/prisma.js";
 import cloudinary from "../config/cloudinary.js";
 
 export async function getPosts(req, res) {
+  const { id } = req.user;
   try {
     const posts = await prisma.post.findMany({
       include: {
@@ -10,6 +11,10 @@ export async function getPosts(req, res) {
             likes: true,
             comments: true,
           },
+        },
+        likes: {
+          where: { userId: id },
+          select: { userId: true },
         },
         author: {
           select: {
@@ -30,7 +35,7 @@ export async function getPosts(req, res) {
 }
 
 export async function getPost(req, res) {
-  debugger;
+  const { id } = req.user;
   const postId = Number(req.params.postId);
   try {
     const post = await prisma.post.findUnique({
@@ -43,6 +48,10 @@ export async function getPost(req, res) {
             likes: true,
             comments: true,
           },
+        },
+        likes: {
+          where: { userId: id },
+          select: { userId: true },
         },
         author: {
           select: {
@@ -65,6 +74,7 @@ export async function getPost(req, res) {
 
 export async function getUsersPosts(req, res) {
   const { username } = req.params;
+  const { id } = req.user;
 
   try {
     const userPosts = await prisma.user.findUnique({
@@ -76,6 +86,10 @@ export async function getUsersPosts(req, res) {
         posts: {
           orderBy: {
             createdAt: "desc",
+          },
+          likes: {
+            where: { userId: id },
+            select: { userId: true },
           },
           include: {
             _count: {
@@ -98,7 +112,6 @@ export async function getUsersPosts(req, res) {
 }
 
 export async function getPostsOfFollowing(req, res) {
-  debugger;
   const { id } = req.user;
 
   try {
@@ -128,6 +141,10 @@ export async function getPostsOfFollowing(req, res) {
             likes: true,
             comments: true,
           },
+        },
+        likes: {
+          where: { userId: id },
+          select: { userId: true },
         },
         author: {
           select: {
@@ -210,6 +227,10 @@ export async function getLikedPosts(req, res) {
             likes: true,
             comments: true,
           },
+        },
+        likes: {
+          where: { userId: id },
+          select: { userId: true },
         },
         author: {
           select: {

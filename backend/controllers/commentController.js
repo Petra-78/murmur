@@ -1,6 +1,7 @@
 import { prisma } from "../lib/prisma.js";
 
 export async function getComments(req, res) {
+  const { id } = req.user;
   const postId = Number(req.params.postId);
 
   try {
@@ -23,6 +24,10 @@ export async function getComments(req, res) {
           select: {
             commentLikes: true,
           },
+        },
+        commentLikes: {
+          where: { userId: id },
+          select: { userId: true },
         },
       },
     });

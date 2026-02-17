@@ -1,5 +1,6 @@
 import { useAuth } from "../context/authContext";
 import { Navigate } from "react-router-dom";
+import PostCard from "../components/posts/PostCard";
 
 export default function Home() {
   const { user, authLoading } = useAuth();
@@ -9,7 +10,7 @@ export default function Home() {
 
   return (
     <div className="h-dvh flex flex-col bg-gray-100 overflow-hidden p-1">
-      <h1>Hi!</h1>
+      <PostCard />
     </div>
   );
 }
