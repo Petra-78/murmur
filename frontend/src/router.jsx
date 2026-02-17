@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Error from "./components/Error";
+import SinglePost from "./pages/SinglePost";
 
 const routes = [
   {
@@ -13,6 +14,7 @@ const routes = [
       { index: true, element: <Home /> },
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <Signup /> },
+      { path: "/posts/:postId", element: <SinglePost /> },
     ],
   },
 ];
