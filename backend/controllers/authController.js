@@ -45,7 +45,7 @@ export async function postGuestLogin(req, res, next) {
 
   const token = jwt.sign(
     {
-      userId: guestUser.id,
+      id: guestUser.id,
       username: guestUser.username,
       profileUrl: guestUser.profileUrl,
     },
@@ -94,7 +94,7 @@ export async function postSignup(req, res) {
 
     const token = jwt.sign(
       {
-        userId: user.id,
+        id: user.id,
         username: user.username,
         profileUrl: user.profileUrl,
       },

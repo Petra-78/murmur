@@ -9,6 +9,7 @@ const options = {
 
 passport.use(
   new JwtStrategy(options, async (token, done) => {
+    debugger;
     try {
       const user = await prisma.user.findUnique({
         where: { id: token.id },
