@@ -3,7 +3,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import PostCard from "../components/posts/PostCard";
 import Comments from "../components/comments/Comments";
-import CommentForm from "../components/comments/CommmentForm";
+import CommentForm from "../components/comments/CommentForm";
 import Loading from "../components/Loading";
 
 export default function SinglePost() {
