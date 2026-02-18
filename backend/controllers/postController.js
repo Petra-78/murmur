@@ -75,7 +75,7 @@ export async function getPost(req, res) {
 export async function getUsersPosts(req, res) {
   const { username } = req.params;
   const { id } = req.user;
-
+  debugger;
   try {
     const userPosts = await prisma.user.findUnique({
       where: { username },
@@ -87,11 +87,12 @@ export async function getUsersPosts(req, res) {
           orderBy: {
             createdAt: "desc",
           },
-          likes: {
-            where: { userId: id },
-            select: { userId: true },
-          },
+
           include: {
+            likes: {
+              where: { userId: id },
+              select: { userId: true },
+            },
             _count: {
               select: {
                 likes: true,

@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Error from "./components/Error";
 import SinglePost from "./pages/SinglePost";
+import Profile from "./pages/Profile";
 
 const routes = [
   {
@@ -15,6 +16,7 @@ const routes = [
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <Signup /> },
       { path: "/posts/:postId", element: <SinglePost /> },
+      { path: "/users/:username", element: <Profile /> },
     ],
   },
 ];

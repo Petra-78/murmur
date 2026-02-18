@@ -1,14 +1,46 @@
 import { useAuth } from "../context/authContext";
 import { Navigate } from "react-router-dom";
 import PostCards from "../components/posts/PostCards";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Loading from "../components/Loading";
 
 export default function Home() {
-  const { user, authLoading } = useAuth();
+  const { user, token, authLoading } = useAuth();
   const [feed, setFeed] = useState("posts");
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!token) return;
+
+    async function fetchPosts() {
+      setLoading(true);
+
+      let url =
+        feed === "following"
+          ? "https://murmur-production.up.railway.app/posts/following"
+          : "https://murmur-production.up.railway.app/posts";
+
+      try {
+        const res = await fetch(url, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const data = await res.json();
+        setPosts(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchPosts();
+  }, [feed, token]);
 
   if (authLoading) return <div>Loading...</div>;
   if (!user) return <Navigate to="/login" replace />;
+  if (loading) return <Loading />;
 
   return (
     <div className="flex h-dvh w-dvw flex-col items-center overflow-hidden bg-gray-100 p-1 dark:bg-zinc-900">
@@ -42,7 +74,7 @@ export default function Home() {
         </button>
       </div>
 
-      <PostCards feed={feed} />
+      <PostCards posts={posts} />
     </div>
   );
 }
