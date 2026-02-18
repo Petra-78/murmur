@@ -1,7 +1,10 @@
 import LikeButton from "../buttons/LikeButton";
 import { formatDate } from "../../utils/dateFormatter";
+import DeleteButton from "../buttons/DeleteButton";
+import { useAuth } from "../../context/authContext";
 
-export default function Comments({ comments, setComments }) {
+export default function Comments({ comments, setRefreshComments }) {
+  const { user } = useAuth();
   debugger;
   if (comments.length === 0)
     return <p className="dark:text-white">No comments yet.</p>;
@@ -16,7 +19,7 @@ export default function Comments({ comments, setComments }) {
           {comments.map((comment) => (
             <div
               key={comment.id}
-              className="relative flex cursor-pointer flex-col gap-3 bg-white/90 p-4 transition-all duration-300 dark:bg-[#040303]/80"
+              className="relative flex cursor-pointer flex-col gap-3 border-b border-b-gray-500 bg-white/90 p-4 transition-all duration-300 dark:bg-[#040303]/80"
             >
               <div className="flex items-center gap-2">
                 <img
@@ -35,11 +38,20 @@ export default function Comments({ comments, setComments }) {
                     {formatDate(comment.createdAt)}
                   </span>
                 </div>
+                {comment.author.id === user.id && (
+                  <div className="ml-auto">
+                    <DeleteButton
+                      content={"comments"}
+                      id={comment.id}
+                      setRefreshComments={setRefreshComments}
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="flex flex-col gap-2">
                 {comment.content && (
-                  <p className="px-2 text-left text-lg text-gray-800 dark:text-gray-100">
+                  <p className="px-2 text-left text-lg wrap-break-word whitespace-pre-wrap text-gray-800 dark:text-gray-100">
                     {comment.content}
                   </p>
                 )}
