@@ -1,5 +1,4 @@
 import { prisma } from "../lib/prisma.js";
-import { getIO } from "../server.js";
 
 export async function getComments(req, res) {
   const { id } = req.user;
@@ -77,9 +76,6 @@ export async function postComment(req, res) {
         content,
       },
     });
-    debugger;
-    const io = getIO();
-    io.to(`post-${postId}`).emit("newComment", comment);
 
     res.json(comment);
   } catch (err) {
