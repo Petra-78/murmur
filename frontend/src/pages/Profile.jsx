@@ -99,20 +99,21 @@ export default function Profile() {
             <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-[#A13333]" />
           )}
         </button>
-
-        <button
-          onClick={() => setFeed("liked")}
-          className={`text-md relative px-2 pb-2 transition-colors duration-300 ${
-            feed === "liked"
-              ? "font-bold text-zinc-900 dark:text-white"
-              : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
-          } `}
-        >
-          Liked
-          {feed === "liked" && (
-            <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-[#A13333]" />
-          )}
-        </button>
+        {user.id === userData.id && (
+          <button
+            onClick={() => setFeed("liked")}
+            className={`text-md relative px-2 pb-2 transition-colors duration-300 ${
+              feed === "liked"
+                ? "font-bold text-zinc-900 dark:text-white"
+                : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+            } `}
+          >
+            Liked
+            {feed === "liked" && (
+              <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-[#A13333]" />
+            )}
+          </button>
+        )}
       </div>
       <PostCards posts={posts} loading={postsLoading} />
     </div>

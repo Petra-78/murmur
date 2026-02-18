@@ -1,4 +1,9 @@
+import { useState } from "react";
+import FollowButton from "../buttons/FollowButton";
+
 export default function ProfileInfo({ userData }) {
+  debugger;
+
   if (!userData)
     return <p className="dark:text-white">Failed to fetch user.</p>;
   return (
@@ -18,7 +23,6 @@ export default function ProfileInfo({ userData }) {
               {userData.username}
             </h2>
           </div>
-
           <div className="flex w-full justify-center gap-8 text-sm text-gray-700 dark:text-gray-300">
             <div className="flex flex-col items-center">
               <p className="font-semibold text-gray-900 dark:text-gray-100">
@@ -39,6 +43,9 @@ export default function ProfileInfo({ userData }) {
               <p>{userData._count.following}</p>
             </div>
           </div>
+          <div>
+            <FollowButton userData={userData} />
+          </div>{" "}
         </div>
       </div>
     </div>
