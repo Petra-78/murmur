@@ -75,40 +75,46 @@ export async function getPost(req, res) {
 export async function getUsersPosts(req, res) {
   const { username } = req.params;
   const { id } = req.user;
-  debugger;
-  try {
-    const userPosts = await prisma.user.findUnique({
-      where: { username },
-      select: {
-        id: true,
-        username: true,
-        profileUrl: true,
-        posts: {
-          orderBy: {
-            createdAt: "desc",
-          },
 
-          include: {
-            likes: {
-              where: { userId: id },
-              select: { userId: true },
-            },
-            _count: {
-              select: {
-                likes: true,
-                comments: true,
-              },
-            },
+  try {
+    const user = await prisma.user.findUnique({
+      where: { username },
+      select: { id: true },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const posts = await prisma.post.findMany({
+      where: { authorId: user.id },
+      orderBy: { createdAt: "desc" },
+      include: {
+        _count: {
+          select: { likes: true, comments: true },
+        },
+        likes: {
+          where: { userId: id },
+          select: { userId: true },
+        },
+        author: {
+          select: {
+            id: true,
+            username: true,
+            profileUrl: true,
           },
         },
       },
     });
-    if (userPosts.posts.length === 0) {
+
+    if (posts.length === 0) {
       return res.json({ message: "This user hasn't posted yet." });
     }
-    res.json(userPosts);
+
+    res.json(posts);
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 }
 
