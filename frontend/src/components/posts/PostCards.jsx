@@ -2,11 +2,12 @@ import { formatDate } from "../../utils/dateFormatter";
 import LikeButton from "../buttons/LikeButton";
 import CommentButton from "../buttons/CommentButton";
 import { Link } from "react-router";
+import Loading from "../Loading";
 
-export default function PostCards({ posts }) {
+export default function PostCards({ posts, loading }) {
   if (!posts || posts.length === 0)
     return <p className="dark:text-white">No posts yet.</p>;
-
+  if (loading) return <Loading />;
   return (
     <>
       {posts.map((post) => (
