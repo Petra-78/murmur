@@ -1,56 +1,57 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { io } from "socket.io-client";
 
 const SocketContext = createContext(null);
 
 export const SocketProvider = ({ children }) => {
-  const socketRef = useRef(null);
+  const [socket, setSocket] = useState(null);
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    if (socketRef.current) return;
+    if (socket) return;
 
-    const socket = io("https://murmur-production.up.railway.app", {
+    const s = io("https://murmur-production.up.railway.app", {
       withCredentials: true,
-      auth: {
-        token: localStorage.getItem("jwt"),
-      },
+      auth: { token: localStorage.getItem("jwt") },
     });
 
-    socketRef.current = socket;
-
-    socket.on("connect", () => {
-      console.log("Socket connected:", socket.id);
-      setConnected(true);
+    s.on("connect", () => {
+      console.log("Socket connected:", s.id);
     });
 
-    socket.on("disconnect", () => {
+    s.on("disconnect", () => {
       console.log("Socket disconnected");
-      setConnected(false);
     });
+
+    setSocket(s);
 
     return () => {
-      socket.disconnect();
-      socketRef.current = null;
+      s.disconnect();
     };
   }, []);
 
   const joinChat = (chatId) => {
-    socketRef.current?.emit("joinChat", chatId);
+    socket.current?.emit("joinChat", chatId);
   };
 
   const sendTyping = (chatId, user) => {
-    socketRef.current?.emit("typing", { chatId, user });
+    socket.current?.emit("typing", { chatId, user });
   };
 
   const stopTyping = (chatId) => {
-    socketRef.current?.emit("stopTyping", { chatId });
+    socket.current?.emit("stopTyping", { chatId });
   };
 
   return (
     <SocketContext.Provider
       value={{
-        socket: socketRef.current,
+        socket,
         connected,
         joinChat,
         sendTyping,

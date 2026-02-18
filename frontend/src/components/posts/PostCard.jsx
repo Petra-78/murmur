@@ -8,6 +8,7 @@ import { formatDate } from "../../utils/dateFormatter";
 import { useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { useSocket } from "../../context/socketContext";
 
 export default function PostCard() {
   const navigate = useNavigate();
@@ -15,6 +16,14 @@ export default function PostCard() {
   const { token } = useAuth();
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState(null);
+  const { socket } = useSocket();
+
+  useEffect(() => {
+    if (!socket || !postId) return;
+
+    socket.emit("joinPost", postId);
+    console.log("joined post socket");
+  }, [postId]);
 
   useEffect(() => {
     if (!token) return;

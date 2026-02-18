@@ -34,6 +34,10 @@ export const initSocket = (server) => {
       socket.join(`chat-${chatId}`);
     });
 
+    socket.on("joinPost", (postId) => {
+      socket.join(`post-${postId}`);
+    });
+
     socket.on("typing", ({ chatId }) => {
       socket.to(`chat-${chatId}`).emit("userTyping", {
         userId: socket.user.id,

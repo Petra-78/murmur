@@ -3,18 +3,40 @@ import { useAuth } from "../../context/authContext";
 import { useState, useEffect } from "react";
 import Loading from "../Loading";
 import LikeButton from "../buttons/LikeButton";
-import CommentButton from "../buttons/CommentButton";
 import { formatDate } from "../../utils/dateFormatter";
+import { useSocket } from "../../context/socketContext";
 
 export default function Comments() {
   const { postId } = useParams();
   const { token } = useAuth();
+  const { socket } = useSocket();
   const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState(null);
 
   useEffect(() => {
+    if (!socket) return;
+
+    const handleNewComment = (comment) => {
+      debugger;
+      setComments((prev) => {
+        if (!prev) return [comment];
+        if (prev.some((c) => c.id === comment.id)) return prev;
+        return [...prev, comment];
+      });
+    };
+
+    socket.on("newComment", handleNewComment);
+    console.log("connected to comment");
+
+    return () => {
+      socket.off("newComment", handleNewComment);
+      console.log("disconnected to comment");
+    };
+  }, [socket]);
+
+  useEffect(() => {
     if (!token) return;
-    async function fetchPost() {
+    async function fetchComments() {
       setLoading(true);
       const res = await fetch(
         `https://murmur-production.up.railway.app/comments/${postId}`,
@@ -34,7 +56,7 @@ export default function Comments() {
       setComments(data);
       setLoading(false);
     }
-    fetchPost();
+    fetchComments();
   }, [token, postId]);
 
   if (loading) return <Loading />;
