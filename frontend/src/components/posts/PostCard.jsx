@@ -1,48 +1,17 @@
-import { useEffect, useState } from "react";
-import Loading from "../Loading";
-import LikeButton from "../buttons/LikeButton";
-import CommentButton from "../buttons/CommentButton";
-import { useParams } from "react-router";
-import { useAuth } from "../../context/authContext";
-import { formatDate } from "../../utils/dateFormatter";
 import { useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { useSocket } from "../../context/socketContext";
+import DeleteButton from "../buttons/DeleteButton";
+import LikeButton from "../buttons/LikeButton";
+import CommentButton from "../buttons/CommentButton";
+import { formatDate } from "../../utils/dateFormatter";
+import { useAuth } from "../../context/authContext";
 
-export default function PostCard() {
+export default function PostCard({ post }) {
   const navigate = useNavigate();
-  const { postId } = useParams();
-  const { token } = useAuth();
-  const [loading, setLoading] = useState(true);
-  const [post, setPost] = useState(null);
-  const { socket } = useSocket();
+  const { user } = useAuth();
 
-  useEffect(() => {
-    if (!token) return;
-    async function fetchPost() {
-      setLoading(true);
-      const res = await fetch(
-        `https://murmur-production.up.railway.app/posts/${postId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      const data = await res.json();
-      if (!res.ok) {
-        console.error(data.message || "Failed to fetch post");
-      }
-      setPost(data);
-      setLoading(false);
-    }
-    fetchPost();
-  }, [token, postId]);
-
-  if (loading) return <Loading />;
+  if (!post) return <p>Post not found</p>;
 
   return (
     <>
@@ -55,6 +24,7 @@ export default function PostCard() {
           Back to posts
         </button>
       </div>
+
       <div
         key={post.id}
         className="relative flex w-full flex-col gap-3 bg-white/90 p-4 shadow-lg shadow-red-800/20 transition-all duration-300 hover:shadow-2xl dark:bg-[#040303]/90"
@@ -72,6 +42,11 @@ export default function PostCard() {
               {formatDate(post.createdAt)}
             </span>
           </div>
+          {post.author.id === user.id && (
+            <div className="ml-auto">
+              <DeleteButton content={"posts"} id={post.id} />
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -94,7 +69,7 @@ export default function PostCard() {
             type="post"
             id={post.id}
             likes={post._count.likes}
-            isLiked={post.likes.length > 0 ? true : false}
+            isLiked={post.likes.length > 0}
           />
           <CommentButton comments={post._count.comments} />
         </div>

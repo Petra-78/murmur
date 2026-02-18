@@ -4,46 +4,72 @@ import { useState, useEffect } from "react";
 import PostCard from "../components/posts/PostCard";
 import Comments from "../components/comments/Comments";
 import CommentForm from "../components/comments/CommmentForm";
+import Loading from "../components/Loading";
 
 export default function SinglePost() {
   const { user, token, authLoading } = useAuth();
   const { postId } = useParams();
+
+  const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [refreshComments, setRefreshComments] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!token) return;
-    async function fetchComments() {
-      debugger;
-      const res = await fetch(
-        `https://murmur-production.up.railway.app/comments/${postId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
 
-      const data = await res.json();
-      debugger;
-      if (!res.ok) {
-        console.error(data.message || "Failed to fetch comment");
+    setLoading(true);
+
+    async function fetchData() {
+      try {
+        const postRes = await fetch(
+          `https://murmur-production.up.railway.app/posts/${postId}`,
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+        const postData = await postRes.json();
+        if (!postRes.ok)
+          console.error(postData.message || "Failed to fetch post");
+        setPost(postData);
+
+        const commentsRes = await fetch(
+          `https://murmur-production.up.railway.app/comments/${postId}`,
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+        const commentsData = await commentsRes.json();
+        if (!commentsRes.ok)
+          console.error(
+            commentsData.message || "Failed to fetch comments",
+          );
+        setComments(commentsData);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
-      setComments(data);
     }
-    fetchComments();
+
+    fetchData();
   }, [token, postId, refreshComments]);
 
   if (authLoading) return <div>Loading...</div>;
   if (!user) return <Navigate to="/login" replace />;
+  if (loading) return <Loading />;
 
   return (
-    <div className="flex flex-col items-center bg-gray-100 dark:bg-zinc-900">
+    <div className="flex flex-1 flex-col items-center bg-gray-100 dark:bg-zinc-900">
       <div className="w-full max-w-2xl">
-        <PostCard />
+        <PostCard post={post} />
         <CommentForm setRefreshComments={setRefreshComments} />
-        <Comments comments={comments} setComments={setComments} />
+        <Comments
+          comments={comments}
+          setRefreshComments={setRefreshComments}
+        />
       </div>
     </div>
   );
