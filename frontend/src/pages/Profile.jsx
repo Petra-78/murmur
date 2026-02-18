@@ -99,7 +99,7 @@ export default function Profile() {
             <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-[#A13333]" />
           )}
         </button>
-        {user.id === userData.id && (
+        {user && userData && user.id === userData.id && (
           <button
             onClick={() => setFeed("liked")}
             className={`text-md relative px-2 pb-2 transition-colors duration-300 ${

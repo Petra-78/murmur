@@ -1,5 +1,6 @@
 import { useState } from "react";
 import FollowButton from "../buttons/FollowButton";
+import SendMessageButton from "../buttons/SendMessageButton";
 
 export default function ProfileInfo({ userData }) {
   debugger;
@@ -7,8 +8,8 @@ export default function ProfileInfo({ userData }) {
   if (!userData)
     return <p className="dark:text-white">Failed to fetch user.</p>;
   return (
-    <div className="mx-auto w-full max-w-3xl p-4">
-      <div className="flex flex-col items-center gap-4 rounded-2xl bg-white p-6 shadow-lg transition-colors duration-300 sm:flex-row sm:items-start dark:bg-[#040303]/90">
+    <div className="mt-3 w-full max-w-2xl">
+      <div className="flex w-full flex-col items-center gap-4 rounded-2xl bg-white p-6 shadow-lg transition-colors duration-300 sm:flex-row sm:items-start dark:bg-[#040303]/90">
         <div className="shrink-0">
           <img
             src={userData.profileUrl || "/placeholder.jpeg"}
@@ -43,9 +44,10 @@ export default function ProfileInfo({ userData }) {
               <p>{userData._count.following}</p>
             </div>
           </div>
-          <div>
-            <FollowButton userData={userData} />
-          </div>{" "}
+          <div className="flex w-full flex-col items-center justify-center gap-3 gap-x-10 sm:flex-row">
+            <FollowButton userData={userData} className="w-full" />
+            <SendMessageButton />
+          </div>
         </div>
       </div>
     </div>
