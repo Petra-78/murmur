@@ -61,6 +61,10 @@ export async function getUser(req, res) {
       select: {
         username: true,
         profileUrl: true,
+        followers: {
+          where: { followerId: req.user.id },
+          select: { id: true },
+        },
         _count: {
           select: {
             posts: true,
@@ -90,6 +94,10 @@ export async function getRecentUsers(req, res) {
       select: {
         username: true,
         profileUrl: true,
+        followers: {
+          where: { followerId: id },
+          select: { id: true },
+        },
       },
       take: 5,
     });
@@ -117,6 +125,10 @@ export async function getPopularUsers(req, res) {
       select: {
         username: true,
         profileUrl: true,
+        followers: {
+          where: { followerId: id },
+          select: { id: true },
+        },
       },
       take: 5,
     });
