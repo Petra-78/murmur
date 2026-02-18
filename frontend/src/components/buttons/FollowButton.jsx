@@ -52,7 +52,7 @@ export default function FollowButton({ userData }) {
         isFollowing
           ? "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
           : "bg-[#A13333] text-white hover:bg-[#b84747]"
-      } focus:ring-2 focus:ring-[#A13333]/50 focus:outline-none active:scale-95`}
+      } `}
     >
       {isFollowing ? "Unfollow" : "Follow"}
     </button>
