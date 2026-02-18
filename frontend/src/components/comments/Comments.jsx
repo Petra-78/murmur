@@ -1,66 +1,8 @@
-import { useParams } from "react-router";
-import { useAuth } from "../../context/authContext";
-import { useState, useEffect } from "react";
-import Loading from "../Loading";
 import LikeButton from "../buttons/LikeButton";
 import { formatDate } from "../../utils/dateFormatter";
-import { useSocket } from "../../context/socketContext";
 
-export default function Comments() {
-  const { postId } = useParams();
-  const { token } = useAuth();
-  const { socket } = useSocket();
-  const [loading, setLoading] = useState(true);
-  const [comments, setComments] = useState(null);
-
-  useEffect(() => {
-    if (!socket) return;
-
-    const handleNewComment = (comment) => {
-      debugger;
-      setComments((prev) => {
-        if (!prev) return [comment];
-        if (prev.some((c) => c.id === comment.id)) return prev;
-        return [...prev, comment];
-      });
-    };
-
-    socket.on("newComment", handleNewComment);
-    console.log("connected to comment");
-
-    return () => {
-      socket.off("newComment", handleNewComment);
-      console.log("disconnected to comment");
-    };
-  }, [socket]);
-
-  useEffect(() => {
-    if (!token) return;
-    async function fetchComments() {
-      setLoading(true);
-      const res = await fetch(
-        `https://murmur-production.up.railway.app/comments/${postId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      const data = await res.json();
-      debugger;
-      if (!res.ok) {
-        console.error(data.message || "Failed to fetch comment");
-      }
-      setComments(data);
-      setLoading(false);
-    }
-    fetchComments();
-  }, [token, postId]);
-
-  if (loading) return <Loading />;
-
+export default function Comments({ comments, setComments }) {
+  debugger;
   if (comments.length === 0)
     return <p className="dark:text-white">No comments yet.</p>;
 

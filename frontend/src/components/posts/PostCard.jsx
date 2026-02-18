@@ -19,13 +19,6 @@ export default function PostCard() {
   const { socket } = useSocket();
 
   useEffect(() => {
-    if (!socket || !postId) return;
-
-    socket.emit("joinPost", postId);
-    console.log("joined post socket");
-  }, [postId]);
-
-  useEffect(() => {
     if (!token) return;
     async function fetchPost() {
       setLoading(true);
