@@ -92,6 +92,7 @@ export default function Replies({
                 parentId={reply.id}
                 setActiveReplyId={setActiveReplyId}
                 setRefreshComments={setRefreshComments}
+                username={reply.author.username}
               />
             </div>
           )}

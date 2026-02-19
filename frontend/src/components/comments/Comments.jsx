@@ -100,6 +100,7 @@ export default function Comments({ comments, setRefreshComments }) {
                     parentId={comment.id}
                     setActiveReplyId={setActiveReplyId}
                     setRefreshComments={setRefreshComments}
+                    username={comment.author.username}
                   />
                 </div>
               )}

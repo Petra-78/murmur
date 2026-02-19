@@ -12,6 +12,7 @@ export default function ReplyForm({
   parentId,
   setRefreshComments,
   setActiveReplyId,
+  username,
 }) {
   const { postId } = useParams();
   const { token } = useAuth();
@@ -53,7 +54,7 @@ export default function ReplyForm({
         className="flex w-full items-center gap-2 px-2"
       >
         <textarea
-          placeholder="Write a comment..."
+          placeholder={`Reply to ${username}...`}
           value={content}
           onChange={(e) => setContent(e.target.value)}
           onInput={(e) => {
