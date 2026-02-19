@@ -2,12 +2,16 @@ import LikeButton from "../buttons/LikeButton";
 import { formatDate } from "../../utils/dateFormatter";
 import DeleteButton from "../buttons/DeleteButton";
 import { useAuth } from "../../context/authContext";
+import Replies from "./Replies";
+import { Link } from "react-router";
 
 export default function Comments({ comments, setRefreshComments }) {
   const { user } = useAuth();
   debugger;
   if (comments.length === 0)
-    return <p className="dark:text-white">No comments yet.</p>;
+    return (
+      <p className="mb-4 py-6 dark:text-white">No comments yet.</p>
+    );
 
   return (
     <div>
@@ -22,17 +26,23 @@ export default function Comments({ comments, setRefreshComments }) {
               className="relative flex cursor-pointer flex-col gap-3 border-b border-b-gray-500 bg-white/90 p-4 transition-all duration-300 dark:bg-[#040303]/80"
             >
               <div className="flex items-center gap-2">
-                <img
-                  className="h-10 w-10 rounded-full border border-[#e5d6d3] dark:border-[#A13333]/50"
-                  src={
-                    comment.author.profileUrl || "/placeholder.jpeg"
-                  }
-                  alt="profile picture"
-                />
+                <Link to={`/users/${comment.author.username}`}>
+                  <img
+                    className="h-10 w-10 rounded-full border border-[#e5d6d3] dark:border-[#A13333]/50"
+                    src={
+                      comment.author.profileUrl || "/placeholder.jpeg"
+                    }
+                    alt="profile picture"
+                  />
+                </Link>
+
                 <div className="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-300">
-                  <p className="font-semibold">
-                    {comment.author.username}
-                  </p>
+                  <Link to={`/users/${comment.author.username}`}>
+                    <p className="font-semibold hover:font-extrabold hover:text-gray-400">
+                      {comment.author.username}
+                    </p>
+                  </Link>
+
                   <span>·</span>
                   <span className="text-xs">
                     {formatDate(comment.createdAt)}
@@ -74,6 +84,12 @@ export default function Comments({ comments, setRefreshComments }) {
                   }
                 />
               </div>
+              {comment.replies.length > 0 && (
+                <Replies
+                  replies={comment.replies}
+                  setRefreshComments={setRefreshComments}
+                />
+              )}
             </div>
           ))}
         </>
