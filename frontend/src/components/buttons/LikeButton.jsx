@@ -12,6 +12,10 @@ export default function LikeButton({ likes, type, id, isLiked }) {
   async function handleLike() {
     try {
       let url;
+      debugger;
+      setIsLiked(!liked);
+      if (liked) setLikeNumber((prev) => prev - 1);
+      if (!liked) setLikeNumber((prev) => prev + 1);
 
       if (type === "post") {
         url = `https://murmur-production.up.railway.app/posts/${id}/like`;
@@ -28,15 +32,9 @@ export default function LikeButton({ likes, type, id, isLiked }) {
         },
       });
       const data = await res.json();
-
-      if (data.likedPost || data.likedComment) {
-        setIsLiked(true);
-        setLikeNumber((prev) => prev + 1);
-      } else if (data.dislikedPost || data.dislikedComment) {
-        setIsLiked(false);
-        setLikeNumber((prev) => prev - 1);
-      }
     } catch (err) {
+      setIsLiked((prev) => !prev);
+      setLikeNumber((prev) => (liked ? prev + 1 : prev - 1));
       console.error(err);
     }
   }
