@@ -5,6 +5,8 @@ import Signup from "./pages/Signup";
 import Error from "./components/Error";
 import SinglePost from "./pages/SinglePost";
 import Profile from "./pages/Profile";
+import PostForm from "./components/posts/PostForm";
+import NewPost from "./pages/NewPost";
 
 const routes = [
   {
@@ -17,6 +19,7 @@ const routes = [
       { path: "/signup", element: <Signup /> },
       { path: "/posts/:postId", element: <SinglePost /> },
       { path: "/users/:username", element: <Profile /> },
+      { path: "/posts/new", element: <NewPost /> },
     ],
   },
 ];
