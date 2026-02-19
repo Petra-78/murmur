@@ -31,7 +31,7 @@ export default function ProfileInfo({ userData }) {
     setSaving(true);
     try {
       const res = await fetch(
-        "http://localhost:8080/users/me/update",
+        "https://murmur-production.up.railway.app/users/me/update",
         {
           method: "PUT",
           headers: {
