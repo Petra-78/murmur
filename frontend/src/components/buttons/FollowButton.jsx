@@ -48,7 +48,7 @@ export default function FollowButton({ userData }) {
   return (
     <button
       onClick={(e) => (isFollowing ? unfollowUser(e) : followUser(e))}
-      className={`min-w-50 rounded-full px-4 py-1.5 text-sm font-semibold transition-all duration-200 ${
+      className={`min-w-30 rounded-full px-4 py-1.5 text-sm font-semibold transition-all duration-200 ${
         isFollowing
           ? "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
           : "bg-[#A13333] text-white hover:bg-[#b84747]"

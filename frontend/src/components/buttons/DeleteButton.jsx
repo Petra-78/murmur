@@ -24,7 +24,7 @@ export default function DeleteButton({
     if (content === "comments")
       url = `https://murmur-production.up.railway.app/comments/${id}`;
     if (content === "posts")
-      url = `http://localhost:8080/posts/${id}`;
+      url = `https://murmur-production.up.railway.app/posts/${id}`;
 
     const res = await fetch(url, {
       method: "DELETE",

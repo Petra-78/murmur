@@ -59,7 +59,7 @@ export default function PostCard({ post }) {
             <img
               src={post.imageUrl}
               alt="post image"
-              className="max-h-96 w-full rounded-xl object-cover"
+              className="max-h-125 w-full rounded-xl object-cover"
             />
           )}
         </div>

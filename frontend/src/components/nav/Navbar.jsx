@@ -15,58 +15,30 @@ export default function Navbar() {
     navigate("/login");
   };
   return (
-    <header
-      className="
-               sticky top-0 z-50
-  backdrop-blur-xl border-b
-  px-6 py-4 flex items-center justify-between
-  transition-colors duration-500
-
-  bg-white/80 border-[#e5d6d3]
-  dark:bg-[#040303] dark:border-[#461111]
-  "
-    >
-      <div className="flex gap-2 items-center">
+    <header className="sticky top-0 z-50 flex items-center justify-between border-b border-[#e5d6d3] bg-white/80 px-6 py-4 backdrop-blur-xl transition-colors duration-500 dark:border-[#461111] dark:bg-[#040303]">
+      <div className="flex items-center gap-2">
         <Link
           to="/"
-          className="
-      text-2xl md:text-2xl font-semibold tracking-wide transition
-
-      text-[#A13333] hover:text-[#B3541E]
-      dark:hover:text-[#B3541E] dark:text-[#A13333]
-      "
+          className="text-2xl font-semibold tracking-wide text-[#A13333] transition hover:text-[#B3541E] md:text-2xl dark:text-[#A13333] dark:hover:text-[#B3541E]"
         >
           Murmur
         </Link>
       </div>
 
-      <div className="flex gap-4 md:gap-6 items-center">
+      <div className="flex items-center gap-4 md:gap-6">
         {user ? (
           <>
-            <button
-              className="
-          flex items-center gap-2 px-3 py-1 md:px-4 md:py-2 rounded-xl
-          transition
-
-          bg-[#f3ece7] text-gray-700 hover:bg-[#e9d8d3]
-          dark:bg-[#461111]/60 dark:text-gray-200 dark:hover:bg-[#A13333]/30
-          "
-            >
-              <span className="text-sm md:text-base">
-                Hello, {user.username}
-              </span>
-            </button>
+            <Link to={`/users/${user.username}`}>
+              <button className="flex items-center gap-2 rounded-xl bg-[#f3ece7] px-3 py-1 text-gray-700 transition hover:bg-[#e9d8d3] md:px-4 md:py-2 dark:bg-[#461111]/60 dark:text-gray-200 dark:hover:bg-[#A13333]/30">
+                <span className="text-sm md:text-base">
+                  Hello, {user.username}
+                </span>
+              </button>
+            </Link>
 
             <button
               onClick={handleLogout}
-              className="
-          px-3 py-1 md:px-4 md:py-2 rounded-xl transition shadow-md
-
-          bg-linear-to-r from-[#B3541E] to-[#A13333] text-white
-          hover:scale-105 active:scale-95
-
-          dark:from-[#A13333] dark:to-[#B3541E]
-          "
+              className="rounded-xl bg-linear-to-r from-[#B3541E] to-[#A13333] px-3 py-1 text-white shadow-md transition hover:scale-105 active:scale-95 md:px-4 md:py-2 dark:from-[#A13333] dark:to-[#B3541E]"
             >
               <FontAwesomeIcon icon={faArrowRightFromBracket} />
             </button>
@@ -75,28 +47,14 @@ export default function Navbar() {
           <>
             <Link
               to="/login"
-              className="
-          px-4 py-2 rounded-xl font-medium transition
-
-          bg-[#B3541E] text-white hover:bg-[#9f4719]
-
-          dark:bg-[#A13333] dark:hover:bg-[#8c2a2a]
-          "
+              className="rounded-xl bg-[#B3541E] px-4 py-2 font-medium text-white transition hover:bg-[#9f4719] dark:bg-[#A13333] dark:hover:bg-[#8c2a2a]"
             >
               Login
             </Link>
 
             <Link
               to="/signup"
-              className="
-          px-4 py-2 rounded-xl font-medium transition
-
-          border border-[#A13333] text-[#A13333]
-          hover:bg-[#A13333] hover:text-white
-
-          dark:border-[#B3541E] dark:text-[#B3541E]
-          dark:hover:bg-[#B3541E] dark:hover:text-white
-          "
+              className="rounded-xl border border-[#A13333] px-4 py-2 font-medium text-[#A13333] transition hover:bg-[#A13333] hover:text-white dark:border-[#B3541E] dark:text-[#B3541E] dark:hover:bg-[#B3541E] dark:hover:text-white"
             >
               Sign up
             </Link>

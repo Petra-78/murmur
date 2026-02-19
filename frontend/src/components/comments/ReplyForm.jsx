@@ -25,7 +25,7 @@ export default function ReplyForm({
       setSending(true);
 
       const res = await fetch(
-        `http://localhost:8080/comments/reply/${postId}/${parentId}`,
+        `https://murmur-production.up.railway.app/comments/reply/${postId}/${parentId}`,
         {
           method: "POST",
           headers: {

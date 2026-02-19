@@ -44,8 +44,8 @@ export default function Home() {
   if (loading) return <Loading />;
 
   return (
-    <div className="flex h-dvh w-dvw flex-col items-center overflow-hidden bg-gray-100 p-1 dark:bg-zinc-900">
-      <div className="flex justify-center gap-8 py-6">
+    <div className="flex max-w-dvw flex-1 flex-col items-center bg-gray-100 p-1 dark:bg-zinc-900">
+      <div className="sticky top-18 z-70 flex justify-center gap-8 py-6">
         <button
           onClick={() => setFeed("posts")}
           className={`text-md relative px-2 pb-2 transition-colors duration-300 ${

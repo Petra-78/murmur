@@ -38,6 +38,10 @@ export default function Profile() {
         if (!res.ok)
           throw new Error(`HTTP error! status: ${res.status}`);
         const data = await res.json();
+        if (data.message) {
+          setPosts([]);
+          return console.log(data.message);
+        }
         setPosts(data);
       } catch (err) {
         console.error(err);
@@ -83,8 +87,8 @@ export default function Profile() {
   if (loading) return <Loading />;
 
   return (
-    <div className="flex h-dvh w-dvw flex-col items-center overflow-hidden bg-gray-100 p-1 dark:bg-zinc-900">
-      <ProfileInfo userData={userData} />
+    <div className="flex min-h-dvh max-w-dvw flex-col items-center bg-gray-100 p-1 dark:bg-zinc-900">
+      <ProfileInfo userData={userData} setUserData={setUserData} />
       <div className="flex justify-center gap-8 py-6">
         <button
           onClick={() => setFeed("username")}
@@ -99,7 +103,7 @@ export default function Profile() {
             <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-[#A13333]" />
           )}
         </button>
-        {user && userData && user.id === userData.id && (
+        {user && userData && user.username === userData.username && (
           <button
             onClick={() => setFeed("liked")}
             className={`text-md relative px-2 pb-2 transition-colors duration-300 ${

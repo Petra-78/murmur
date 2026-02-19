@@ -42,11 +42,11 @@ export default function LikeButton({ likes, type, id, isLiked }) {
   return (
     <button
       onClick={handleLike}
-      className="flex items-end rounded-lg px-2 py-1 text-gray-600 transition-all active:scale-95 dark:text-gray-300"
+      className="flex items-end rounded-lg px-2 py-1 text-gray-700 transition-all active:scale-95 dark:text-gray-300"
     >
       <FontAwesomeIcon
         icon={liked ? faHeart : faHeartRegular}
-        className={`text-xl transition-colors duration-200 ${liked ? "text-[#A13333]" : "text-gray-400 dark:text-gray-300"} hover:text-[#B3541E]`}
+        className={`text-xl transition-colors duration-200 ${liked ? "text-[#A13333]" : "text-gray-600 dark:text-gray-300"} hover:text-[#B3541E]`}
       />
       <span className="text-xs font-medium">{likeNumber}</span>
     </button>

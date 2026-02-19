@@ -46,6 +46,7 @@ export default function CommentForm({ setRefreshComments }) {
         <textarea
           placeholder="Write a comment..."
           value={content}
+          rows={1}
           onChange={(e) => setContent(e.target.value)}
           onInput={(e) => {
             e.target.style.height = "auto";

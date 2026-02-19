@@ -14,9 +14,9 @@ export default function ReplyButton({
             activeReplyId === commentId ? null : commentId,
           )
         }
-        className="text-gray-800 dark:text-gray-200"
+        className="mt-1 text-lg text-gray-500 transition-all duration-200 hover:text-[#A13333] active:scale-90 dark:text-gray-400"
       >
-        <FontAwesomeIcon icon={faReply} />
+        <FontAwesomeIcon icon={faReply} size="sm" />
       </button>
     </div>
   );
