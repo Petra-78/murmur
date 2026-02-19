@@ -29,6 +29,12 @@ export async function getComments(req, res) {
           where: { userId: id },
           select: { userId: true },
         },
+        parent: {
+          select: {
+            id: true,
+            author: { select: { id: true, username: true, profileUrl: true } },
+          },
+        },
       },
     });
 
