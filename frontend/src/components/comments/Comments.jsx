@@ -7,10 +7,12 @@ import { Link } from "react-router";
 import ReplyButton from "../buttons/ReplyButton";
 import { useState } from "react";
 import ReplyForm from "./ReplyForm";
+import ShowReplies from "../buttons/ShowReplies";
 
 export default function Comments({ comments, setRefreshComments }) {
   const { user } = useAuth();
   const [activeReplyId, setActiveReplyId] = useState(null);
+  const [showReplyId, setShowReplyId] = useState(null);
 
   debugger;
   if (comments.length === 0)
@@ -93,6 +95,14 @@ export default function Comments({ comments, setRefreshComments }) {
                   setActiveReplyId={setActiveReplyId}
                   commentId={comment.id}
                 />
+                {comment.replies.length > 0 && (
+                  <ShowReplies
+                    showReplyId={showReplyId}
+                    setShowReplyId={setShowReplyId}
+                    commentId={comment.id}
+                    replyLength={comment.replies.length}
+                  />
+                )}
               </div>
               {activeReplyId === comment.id && (
                 <div>
@@ -105,14 +115,15 @@ export default function Comments({ comments, setRefreshComments }) {
                 </div>
               )}
 
-              {comment.replies.length > 0 && (
-                <Replies
-                  replies={comment.replies}
-                  setRefreshComments={setRefreshComments}
-                  activeReplyId={activeReplyId}
-                  setActiveReplyId={setActiveReplyId}
-                />
-              )}
+              {comment.replies.length > 0 &&
+                showReplyId === comment.id && (
+                  <Replies
+                    replies={comment.replies}
+                    setRefreshComments={setRefreshComments}
+                    activeReplyId={activeReplyId}
+                    setActiveReplyId={setActiveReplyId}
+                  />
+                )}
             </div>
           ))}
         </>
