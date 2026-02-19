@@ -91,6 +91,7 @@ export async function postComment(req, res) {
 }
 
 export async function replyToComment(req, res) {
+  debugger;
   const { id } = req.user;
   const { content } = req.body;
   const postId = Number(req.params.postId);

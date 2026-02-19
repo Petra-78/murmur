@@ -61,6 +61,8 @@ export async function getUser(req, res) {
       select: {
         username: true,
         profileUrl: true,
+        bio: true,
+        nickName: true,
         followers: {
           where: { followerId: req.user.id },
           select: { id: true },

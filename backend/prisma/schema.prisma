@@ -19,6 +19,8 @@ model User {
   email      String  @unique
   password   String
   profileUrl String?
+  bio        String?
+  nickName   String?
   createdAt  DateTime @default(now())
   isGuest    Boolean @default(false)
   isDeleted  Boolean @default(false)
