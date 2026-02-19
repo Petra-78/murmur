@@ -141,15 +141,15 @@ export async function getPopularUsers(req, res) {
 }
 
 export async function updateUser(req, res) {
-  const { username, email } = req.body;
+  const { bio, nickName } = req.body;
   const { id } = req.user;
 
   try {
     const updatedUser = await prisma.user.update({
       where: { id },
       data: {
-        username,
-        email,
+        bio,
+        nickName,
       },
     });
     res.json(updatedUser);
