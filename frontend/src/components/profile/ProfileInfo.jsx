@@ -1,9 +1,11 @@
 import { useState } from "react";
 import FollowButton from "../buttons/FollowButton";
 import SendMessageButton from "../buttons/SendMessageButton";
+import { useAuth } from "../../context/authContext";
 
 export default function ProfileInfo({ userData }) {
   debugger;
+  const { user } = useAuth();
 
   if (!userData)
     return <p className="dark:text-white">Failed to fetch user.</p>;
@@ -44,10 +46,17 @@ export default function ProfileInfo({ userData }) {
               <p>{userData._count.following}</p>
             </div>
           </div>
-          <div className="flex w-full flex-col items-center justify-center gap-4 sm:flex-row">
-            <FollowButton userData={userData} className="w-full" />
-            <SendMessageButton />
-          </div>
+          {userData &&
+            user &&
+            user.username !== userData.username && (
+              <div className="flex w-full flex-col items-center justify-center gap-4 sm:flex-row">
+                <FollowButton
+                  userData={userData}
+                  className="w-full"
+                />
+                <SendMessageButton />
+              </div>
+            )}
         </div>
       </div>
     </div>
