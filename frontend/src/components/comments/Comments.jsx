@@ -4,9 +4,14 @@ import DeleteButton from "../buttons/DeleteButton";
 import { useAuth } from "../../context/authContext";
 import Replies from "./Replies";
 import { Link } from "react-router";
+import ReplyButton from "../buttons/ReplyButton";
+import { useState } from "react";
+import ReplyForm from "./ReplyForm";
 
 export default function Comments({ comments, setRefreshComments }) {
   const { user } = useAuth();
+  const [activeReplyId, setActiveReplyId] = useState(null);
+
   debugger;
   if (comments.length === 0)
     return (
@@ -83,11 +88,28 @@ export default function Comments({ comments, setRefreshComments }) {
                     comment.commentLikes.length > 0 ? true : false
                   }
                 />
+                <ReplyButton
+                  activeReplyId={activeReplyId}
+                  setActiveReplyId={setActiveReplyId}
+                  commentId={comment.id}
+                />
               </div>
+              {activeReplyId === comment.id && (
+                <div>
+                  <ReplyForm
+                    parentId={comment.id}
+                    setActiveReplyId={setActiveReplyId}
+                    setRefreshComments={setRefreshComments}
+                  />
+                </div>
+              )}
+
               {comment.replies.length > 0 && (
                 <Replies
                   replies={comment.replies}
                   setRefreshComments={setRefreshComments}
+                  activeReplyId={activeReplyId}
+                  setActiveReplyId={setActiveReplyId}
                 />
               )}
             </div>

@@ -5,8 +5,15 @@ import DeleteButton from "../buttons/DeleteButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
+import ReplyButton from "../buttons/ReplyButton";
+import ReplyForm from "./ReplyForm";
 
-export default function Replies({ replies, setRefreshComments }) {
+export default function Replies({
+  replies,
+  setRefreshComments,
+  activeReplyId,
+  setActiveReplyId,
+}) {
   debugger;
   const { user } = useAuth();
   return (
@@ -73,7 +80,21 @@ export default function Replies({ replies, setRefreshComments }) {
               likes={reply._count.commentLikes}
               isLiked={reply.commentLikes.length > 0 ? true : false}
             />
+            <ReplyButton
+              activeReplyId={activeReplyId}
+              setActiveReplyId={setActiveReplyId}
+              commentId={reply.id}
+            />
           </div>
+          {activeReplyId === reply.id && (
+            <div>
+              <ReplyForm
+                parentId={reply.id}
+                setActiveReplyId={setActiveReplyId}
+                setRefreshComments={setRefreshComments}
+              />
+            </div>
+          )}
         </div>
       ))}
     </div>
