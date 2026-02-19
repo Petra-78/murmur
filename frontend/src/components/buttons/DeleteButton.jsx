@@ -5,6 +5,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuth } from "../../context/authContext";
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 export default function DeleteButton({
   content,
@@ -13,6 +15,7 @@ export default function DeleteButton({
 }) {
   const { token } = useAuth();
   const [deleting, setDeleting] = useState(false);
+  const navigate = useNavigate();
 
   async function deleteContent(e) {
     setDeleting(true);
@@ -21,7 +24,7 @@ export default function DeleteButton({
     if (content === "comments")
       url = `https://murmur-production.up.railway.app/comments/${id}`;
     if (content === "posts")
-      url = `https://murmur-production.up.railway.app/posts/${id}`;
+      url = `http://localhost:8080/posts/${id}`;
 
     const res = await fetch(url, {
       method: "DELETE",
@@ -31,13 +34,19 @@ export default function DeleteButton({
     });
 
     const data = await res.json();
-    setRefreshComments((prev) => prev + 1);
-    setDeleting(false);
-    console.log(`Deleted: ${data}`);
 
     if (!res.ok) {
+      toast.error(data.message || "Failed to delete");
       console.log(`Failed to delete`);
     }
+    if (content === "comments") {
+      setRefreshComments((prev) => prev + 1);
+    }
+    if (content === "posts") {
+      navigate(-1);
+    }
+    setDeleting(false);
+    console.log(`Deleted: ${data}`);
   }
   return (
     <button
