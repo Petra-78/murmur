@@ -23,7 +23,7 @@ export default function Comments({ comments, setRefreshComments }) {
   return (
     <div>
       <div className="py-4 text-lg dark:text-gray-200">
-        <p>Comments ({comments.length})</p>
+        <p>Comments</p>
       </div>
       {comments && comments.length > 0 && (
         <>
