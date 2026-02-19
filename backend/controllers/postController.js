@@ -255,8 +255,9 @@ export async function getLikedPosts(req, res) {
 }
 
 export async function deletePost(req, res) {
+  debugger;
   const postId = Number(req.params.postId);
-  const id = req.user;
+  const { id } = req.user;
 
   try {
     const post = await prisma.post.findUnique({
