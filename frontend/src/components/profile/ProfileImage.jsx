@@ -43,7 +43,7 @@ export function ProfileImage({ profile, setUserData, setPosts }) {
 
     try {
       const res = await fetch(
-        "http://localhost:8080/users/me/update/pfp",
+        "https://murmur-production.up.railway.app/users/me/update/pfp",
         {
           method: "PUT",
           headers: {

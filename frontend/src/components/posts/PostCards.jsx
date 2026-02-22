@@ -23,7 +23,7 @@ export default function PostCards({ posts, loading }) {
                 className="flex items-center gap-2"
               >
                 <img
-                  className="h-10 w-10 rounded-full border border-[#e5d6d3] dark:border-[#A13333]/50"
+                  className="h-10 w-10 rounded-full object-cover"
                   src={post.author.profileUrl || "/placeholder.jpeg"}
                   alt="profile"
                 />

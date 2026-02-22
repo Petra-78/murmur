@@ -35,7 +35,7 @@ export default function Comments({ comments, setRefreshComments }) {
               <div className="flex items-center gap-2">
                 <Link to={`/users/${comment.author.username}`}>
                   <img
-                    className="h-10 w-10 rounded-full border border-[#e5d6d3] dark:border-[#A13333]/50"
+                    className="h-10 w-10 rounded-full object-cover"
                     src={
                       comment.author.profileUrl || "/placeholder.jpeg"
                     }

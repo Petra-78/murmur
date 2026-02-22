@@ -3,8 +3,9 @@ import { useAuth } from "../../context/authContext";
 import { useState } from "react";
 
 export default function FollowButton({ userData }) {
+  debugger;
   const { token } = useAuth();
-  const { username } = useParams();
+  const { username } = userData.username;
   const [isFollowing, setIsFollowing] = useState(
     userData.followers.length > 0 ? true : false,
   );
@@ -50,7 +51,7 @@ export default function FollowButton({ userData }) {
       onClick={(e) => (isFollowing ? unfollowUser(e) : followUser(e))}
       className={`min-w-30 rounded-full px-4 py-1.5 text-sm font-semibold transition-all duration-200 ${
         isFollowing
-          ? "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+          ? "bg-[#f3ece7] text-gray-800 hover:bg-[#e9d8d3] dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
           : "bg-[#A13333] text-white hover:bg-[#b84747]"
       } `}
     >
