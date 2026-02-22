@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function FollowButton({ userData }) {
   debugger;
   const { token } = useAuth();
-  const { username } = userData.username;
+  const username = userData.username;
   const [isFollowing, setIsFollowing] = useState(
     userData.followers.length > 0 ? true : false,
   );
