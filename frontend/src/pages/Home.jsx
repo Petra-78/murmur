@@ -3,13 +3,15 @@ import { Navigate } from "react-router-dom";
 import PostCards from "../components/posts/PostCards";
 import { useState, useEffect } from "react";
 import Loading from "../components/Loading";
+import RightSidebar from "../components/right-sidebar/RightSidebar";
 
 export default function Home() {
   const { user, token, authLoading } = useAuth();
   const [feed, setFeed] = useState("posts");
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  debugger;
+  const [mainLoading, setMainLoading] = useState(true);
+
   useEffect(() => {
     if (!token) return;
 
@@ -33,6 +35,7 @@ export default function Home() {
         console.error(err);
       } finally {
         setLoading(false);
+        setMainLoading(false);
       }
     }
 
@@ -41,41 +44,63 @@ export default function Home() {
 
   if (authLoading) return <div>Loading...</div>;
   if (!user) return <Navigate to="/login" replace />;
-  if (loading) return <Loading />;
+  if (mainLoading) return <Loading />;
 
   return (
-    <div className="flex max-w-dvw flex-1 flex-col items-center bg-gray-100 p-1 dark:bg-zinc-900">
-      <div className="sticky top-0 z-70 flex justify-center gap-8 py-6">
-        <button
-          onClick={() => setFeed("posts")}
-          className={`text-md relative px-2 pb-2 transition-colors duration-300 ${
-            feed === "posts"
-              ? "font-bold text-zinc-900 dark:text-white"
-              : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
-          } `}
-        >
-          Posts
-          {feed === "posts" && (
-            <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-[#A13333]" />
-          )}
-        </button>
+    <div className="min-h-screen w-full bg-gray-100 dark:bg-zinc-900">
+      <div className="max-w-8xl grid w-full grid-cols-1 justify-center gap-6 px-4 py-4 lg:grid-cols-[250px_minmax(0,1fr)_minmax(0,350px)]">
+        <aside className="hidden lg:block">
+          <div className="sticky bottom-0 rounded-xl bg-white p-4 shadow-sm md:top-23 dark:bg-zinc-950 dark:text-white">
+            Left sidebar
+          </div>
+        </aside>
 
-        <button
-          onClick={() => setFeed("following")}
-          className={`text-md relative px-2 pb-2 transition-colors duration-300 ${
-            feed === "following"
-              ? "font-bold text-zinc-900 dark:text-white"
-              : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
-          } `}
-        >
-          Following
-          {feed === "following" && (
-            <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-[#A13333]" />
-          )}
-        </button>
+        <aside className="fixed right-0 bottom-0 left-0 z-50 bg-white p-4 shadow lg:hidden dark:bg-zinc-950">
+          Mobile Bottom Bar
+        </aside>
+
+        <main className="flex flex-col items-center">
+          <div className="sticky top-1.5 z-50 mb-4 flex w-full max-w-3xl justify-center gap-8 rounded-xl bg-white py-4 shadow-sm dark:bg-zinc-950">
+            <button
+              onClick={() => setFeed("posts")}
+              className={`relative px-3 pb-2 text-sm font-medium transition-colors duration-200 ${
+                feed === "posts"
+                  ? "text-zinc-900 dark:text-white"
+                  : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+              }`}
+            >
+              Posts
+              {feed === "posts" && (
+                <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-[#A13333]" />
+              )}
+            </button>
+
+            <button
+              onClick={() => setFeed("following")}
+              className={`relative px-3 pb-2 text-sm font-medium transition-colors duration-200 ${
+                feed === "following"
+                  ? "text-zinc-900 dark:text-white"
+                  : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+              }`}
+            >
+              Following
+              {feed === "following" && (
+                <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-[#A13333]" />
+              )}
+            </button>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <PostCards posts={posts} loading={loading} />
+          </div>
+        </main>
+
+        <aside className="hidden max-w-md lg:block">
+          <div className="sticky top-23 rounded-2xl bg-white p-2 shadow-sm dark:bg-zinc-950">
+            <RightSidebar />
+          </div>
+        </aside>
       </div>
-
-      <PostCards posts={posts} />
     </div>
   );
 }

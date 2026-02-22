@@ -5,17 +5,21 @@ import { Link } from "react-router";
 import Loading from "../Loading";
 
 export default function PostCards({ posts, loading }) {
-  debugger;
   if (!posts || posts.length === 0)
     return <p className="dark:text-white">No posts yet.</p>;
-  if (loading) return <Loading />;
+  if (loading)
+    return (
+      <div className="mt-20">
+        <Loading />
+      </div>
+    );
   return (
     <>
       {posts &&
         posts.map((post) => (
           <div
             key={post.id}
-            className="relative my-4 flex w-full max-w-2xl cursor-pointer flex-col gap-3 rounded-2xl bg-white/90 p-4 shadow-lg shadow-red-800/20 transition-all duration-300 hover:shadow-2xl dark:bg-[#040303]/90"
+            className="relative my-4 flex w-full max-w-3xl cursor-pointer flex-col gap-3 rounded-3xl bg-white/90 p-6 shadow-lg shadow-red-800/20 transition-all duration-300 hover:shadow-2xl dark:bg-[#040303]/90"
           >
             <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
               <Link
@@ -41,7 +45,7 @@ export default function PostCards({ posts, loading }) {
 
             <Link
               to={`/posts/${post.id}`}
-              className="w-full max-w-2xl"
+              className="w-full max-w-3xl"
             >
               <div className="flex flex-col gap-2">
                 {post.content && (
