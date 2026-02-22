@@ -25,7 +25,7 @@ export default function PostForm() {
     if (imageFile) formData.append("file", imageFile);
 
     const maxSize = 5 * 1024 * 1024;
-    if (imageFile.size > maxSize) {
+    if (imageFile && imageFile.size > maxSize) {
       toast.error("File is too large. Maximum size is 5MB.");
       setSending(false);
       return;
