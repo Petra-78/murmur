@@ -36,7 +36,7 @@ export async function postGuestLogin(req, res, next) {
   const password = await bcrypt.hash(randomPwd, 10);
   const guestUser = await prisma.user.create({
     data: {
-      username: `guest_${Date.now()}`,
+      username: `guest_${Date.now().toString(36)}`,
       email: `guest_${Date.now()}@guest.murmur`,
       password,
       isGuest: true,
