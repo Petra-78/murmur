@@ -48,7 +48,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full bg-gray-100 dark:bg-zinc-900">
-      <div className="max-w-8xl grid w-full grid-cols-1 justify-center gap-6 px-4 py-4 lg:grid-cols-[250px_minmax(0,1fr)_minmax(0,350px)]">
+      <div className="max-w-8xl grid w-full grid-cols-1 justify-center gap-6 px-4 py-4 lg:grid-cols-[250px_minmax(0,1fr)_min-content]">
         <aside className="hidden lg:block">
           <div className="sticky bottom-0 rounded-xl bg-white p-4 shadow-sm md:top-23 dark:bg-zinc-950 dark:text-white">
             Left sidebar

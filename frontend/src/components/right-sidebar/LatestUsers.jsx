@@ -20,7 +20,7 @@ export default function LatestUsers({ latestUsers }) {
                   alt="User profile"
                   className="h-6 w-6 shrink-0 rounded-full object-cover sm:h-10 sm:w-10"
                 />
-                <span className="truncate text-gray-800 dark:text-gray-200">
+                <span className="max-w-25 truncate text-gray-800 dark:text-gray-200">
                   {u.username}
                 </span>
               </button>
