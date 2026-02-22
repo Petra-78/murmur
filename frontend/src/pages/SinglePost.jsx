@@ -14,6 +14,7 @@ export default function SinglePost() {
   const [comments, setComments] = useState([]);
   const [refreshComments, setRefreshComments] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [mainLoading, setMainLoading] = useState(true);
 
   useEffect(() => {
     if (!token) return;
@@ -51,6 +52,7 @@ export default function SinglePost() {
         console.error(err);
       } finally {
         setLoading(false);
+        setMainLoading(false);
       }
     }
 
@@ -59,7 +61,7 @@ export default function SinglePost() {
 
   if (authLoading) return <div>Loading...</div>;
   if (!user) return <Navigate to="/login" replace />;
-  if (loading) return <Loading />;
+  if (mainLoading) return <Loading />;
 
   return (
     <div className="flex flex-1 flex-col items-center bg-gray-100 dark:bg-zinc-900">
@@ -69,6 +71,7 @@ export default function SinglePost() {
         <Comments
           comments={comments}
           setRefreshComments={setRefreshComments}
+          loading={loading}
         />
       </div>
     </div>

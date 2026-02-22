@@ -8,8 +8,13 @@ import ReplyButton from "../buttons/ReplyButton";
 import { useState } from "react";
 import ReplyForm from "./ReplyForm";
 import ShowReplies from "../buttons/ShowReplies";
+import Loading from "../Loading";
 
-export default function Comments({ comments, setRefreshComments }) {
+export default function Comments({
+  comments,
+  setRefreshComments,
+  loading,
+}) {
   const { user } = useAuth();
   const [activeReplyId, setActiveReplyId] = useState(null);
   const [showReplyId, setShowReplyId] = useState(null);
@@ -19,7 +24,7 @@ export default function Comments({ comments, setRefreshComments }) {
     return (
       <p className="mb-4 py-6 dark:text-white">No comments yet.</p>
     );
-
+  if (loading) return <Loading />;
   return (
     <div>
       <div className="py-4 text-lg dark:text-gray-200">
