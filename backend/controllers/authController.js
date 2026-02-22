@@ -55,7 +55,11 @@ export async function postGuestLogin(req, res, next) {
 
   return res.json({
     token,
-    user: { username: guestUser.username, profileUrl: guestUser.profileUrl },
+    user: {
+      id: guestUser.id,
+      username: guestUser.username,
+      profileUrl: guestUser.profileUrl,
+    },
   });
 }
 
