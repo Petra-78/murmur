@@ -91,11 +91,6 @@ export async function getRecentUsers(req, res) {
 
   try {
     const recentUsers = await prisma.user.findMany({
-      where: {
-        NOT: {
-          id,
-        },
-      },
       orderBy: { createdAt: "desc" },
       select: {
         username: true,
@@ -118,11 +113,6 @@ export async function getPopularUsers(req, res) {
 
   try {
     const popularUsers = await prisma.user.findMany({
-      where: {
-        NOT: {
-          id,
-        },
-      },
       orderBy: {
         followers: {
           _count: "desc",
