@@ -7,6 +7,7 @@ import SinglePost from "./pages/SinglePost";
 import Profile from "./pages/Profile";
 import PostForm from "./components/posts/PostForm";
 import NewPost from "./pages/NewPost";
+import UserSearch from "./pages/UserSearch";
 
 const routes = [
   {
@@ -20,6 +21,7 @@ const routes = [
       { path: "/posts/:postId", element: <SinglePost /> },
       { path: "/users/:username", element: <Profile /> },
       { path: "/posts/new", element: <NewPost /> },
+      { path: "/users/search", element: <UserSearch /> },
     ],
   },
 ];
