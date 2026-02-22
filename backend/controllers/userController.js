@@ -15,6 +15,10 @@ export async function getUsers(req, res) {
         id: true,
         username: true,
         profileUrl: true,
+        followers: {
+          where: { followerId: req.user.id },
+          select: { id: true },
+        },
       },
     });
     res.json(users);
