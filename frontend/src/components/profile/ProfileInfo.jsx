@@ -6,21 +6,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { toast } from "react-toastify";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { ProfileImage } from "./ProfileImage";
 
-export default function ProfileInfo({ userData }) {
-  const { user, token } = useAuth();
+export default function ProfileInfo({
+  userData,
+  setUserData,
+  setPosts,
+}) {
+  const { user, token, setUser } = useAuth();
 
-  const [profile, setProfile] = useState(userData || null);
-  const [nickName, setNickName] = useState(userData?.nickName || "");
-  const [bio, setBio] = useState(userData?.bio || "");
+  const [nickName, setNickName] = useState("");
+  const [bio, setBio] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const isOwnProfile = user?.username === profile?.username;
+  const isOwnProfile = user?.username === userData?.username;
 
   useEffect(() => {
     if (userData) {
-      setProfile(userData);
       setNickName(userData.nickName || "");
       setBio(userData.bio || "");
     }
@@ -29,6 +32,7 @@ export default function ProfileInfo({ userData }) {
   async function updateUser(e) {
     e.preventDefault();
     setSaving(true);
+
     try {
       const res = await fetch(
         "https://murmur-production.up.railway.app/users/me/update",
@@ -43,14 +47,22 @@ export default function ProfileInfo({ userData }) {
       );
 
       const data = await res.json();
+
       if (!res.ok) {
         toast.error(data?.message || "Failed to update user");
         return;
       }
 
-      setProfile((p) => ({ ...(p || {}), ...data }));
-      setNickName(data.nickName ?? nickName);
-      setBio(data.bio ?? bio);
+      setUserData((prev) => ({
+        ...prev,
+        ...data,
+      }));
+
+      setUser((prevUser) => ({
+        ...prevUser,
+        bio: data.bio,
+        nickName: data.nickName,
+      }));
 
       toast.success("Profile updated!");
       setIsEditing(false);
@@ -61,24 +73,24 @@ export default function ProfileInfo({ userData }) {
     }
   }
 
-  if (!profile)
+  if (!userData)
     return <p className="dark:text-white">Failed to fetch user.</p>;
 
   return (
     <div className="mt-3 w-full max-w-2xl">
-      <div className="grid w-full grid-cols-[1fr_2fr_min] grid-rows-[1fr_min] items-center gap-4 rounded-2xl bg-white p-6 shadow-lg transition-colors duration-300 sm:flex-row sm:items-start dark:bg-[#040303]/90">
+      <div className="grid w-full grid-cols-[1fr_2fr_min] grid-rows-[1fr_min] items-center gap-4 rounded-2xl bg-white p-6 shadow-lg dark:bg-[#040303]/90">
         <div className="shrink-0">
-          <img
-            src={profile.profileUrl || "/placeholder.jpeg"}
-            alt="profile picture"
-            className="h-24 w-24 rounded-full border border-gray-300 object-cover sm:h-28 sm:w-28 dark:border-[#A13333]/50"
+          <ProfileImage
+            profile={userData}
+            setUserData={setUserData}
+            setPosts={setPosts}
           />
         </div>
 
-        <div className="flex w-full flex-1 flex-col items-center gap-4 sm:items-center">
+        <div className="flex w-full flex-1 flex-col items-center gap-4">
           <div className="mb-2">
-            <h2 className="truncate text-center text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">
-              {profile.username}
+            <h2 className="truncate text-center text-xl font-bold text-gray-900 dark:text-gray-100">
+              {userData.username}
             </h2>
 
             {isEditing && isOwnProfile ? (
@@ -88,11 +100,11 @@ export default function ProfileInfo({ userData }) {
                 onChange={(e) => setNickName(e.target.value)}
                 maxLength={60}
                 placeholder="Add nickname..."
-                className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-1 text-center text-sm outline-none focus:border-[#A13333] dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                className="mt-1 w-full rounded-lg border px-3 py-1 text-center text-sm"
               />
-            ) : profile.nickName ? (
+            ) : userData.nickName ? (
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                {profile.nickName}
+                {userData.nickName}
               </p>
             ) : isOwnProfile ? (
               <button
@@ -104,34 +116,28 @@ export default function ProfileInfo({ userData }) {
             ) : null}
           </div>
 
-          <div className="flex w-full justify-center gap-12 text-sm text-gray-700 dark:text-gray-300">
+          <div className="flex w-full justify-center gap-12 text-sm">
             <div className="flex flex-col items-center">
-              <p className="font-semibold text-gray-900 dark:text-gray-100">
-                Posts
-              </p>
-              <p className="text-lg">{profile._count?.posts || 0}</p>
+              <p className="font-semibold">Posts</p>
+              <p className="text-lg">{userData._count?.posts || 0}</p>
             </div>
             <div className="flex flex-col items-center">
-              <p className="font-semibold text-gray-900 dark:text-gray-100">
-                Followers
-              </p>
+              <p className="font-semibold">Followers</p>
               <p className="text-lg">
-                {profile._count?.followers || 0}
+                {userData._count?.followers || 0}
               </p>
             </div>
             <div className="flex flex-col items-center">
-              <p className="font-semibold text-gray-900 dark:text-gray-100">
-                Following
-              </p>
+              <p className="font-semibold">Following</p>
               <p className="text-lg">
-                {profile._count?.following || 0}
+                {userData._count?.following || 0}
               </p>
             </div>
           </div>
 
-          {profile && user && user.username !== profile.username && (
-            <div className="flex w-full flex-col items-center justify-center gap-4 sm:flex-row">
-              <FollowButton userData={profile} className="w-full" />
+          {user && user.username !== userData.username && (
+            <div className="flex w-full flex-col items-center gap-4 sm:flex-row">
+              <FollowButton userData={userData} className="w-full" />
               <SendMessageButton />
             </div>
           )}
@@ -142,7 +148,7 @@ export default function ProfileInfo({ userData }) {
             {isEditing && (
               <button
                 onClick={updateUser}
-                className="rounded bg-[#A13333] px-4 py-1 text-white hover:bg-[#821f25]"
+                className="rounded bg-[#A13333] px-4 py-1 text-white"
               >
                 {saving ? (
                   <FontAwesomeIcon icon={faSpinner} spin />
@@ -153,7 +159,7 @@ export default function ProfileInfo({ userData }) {
             )}
             <button
               onClick={() => setIsEditing(!isEditing)}
-              className="flex items-center gap-1 text-sm text-gray-600 hover:text-[#A13333] dark:text-gray-300"
+              className="flex items-center gap-1 text-sm"
             >
               {isEditing ? (
                 "Cancel"
@@ -171,15 +177,12 @@ export default function ProfileInfo({ userData }) {
             <textarea
               value={bio}
               onChange={(e) => setBio(e.target.value)}
-              placeholder="Write your bio..."
               rows={1}
               maxLength={200}
-              className="w-full resize-none rounded-xl border border-gray-300 bg-gray-50 px-3 py-2 text-sm outline-none focus:border-[#A13333] dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+              className="w-full resize-none rounded-xl border px-3 py-2 text-sm"
             />
-          ) : profile.bio ? (
-            <p className="col-span-3 px-3 text-left text-sm text-gray-700 dark:text-gray-300">
-              {profile.bio}
-            </p>
+          ) : userData.bio ? (
+            <p className="px-3 text-sm">{userData.bio}</p>
           ) : isOwnProfile ? (
             <button
               onClick={() => setIsEditing(true)}
