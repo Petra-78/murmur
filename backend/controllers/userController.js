@@ -164,7 +164,6 @@ export async function updateUser(req, res) {
 }
 
 export async function uploadProfilePicture(req, res) {
-  debugger;
   try {
     const { id } = req.user;
 
