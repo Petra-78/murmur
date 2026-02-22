@@ -103,11 +103,11 @@ export function ProfileImage({ profile, setUserData, setPosts }) {
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className="group relative h-40 w-40 cursor-pointer">
+      <div className="group relative h-20 w-20 cursor-pointer md:h-40 md:w-40">
         <img
           src={preview || profile?.profileUrl || "/placeholder.jpeg"}
           alt="Profile picture"
-          className="h-40 w-40 rounded-full object-cover"
+          className="h-20 w-20 rounded-full object-cover md:h-40 md:w-40"
         />
 
         {isOwnProfile && (
@@ -125,18 +125,19 @@ export function ProfileImage({ profile, setUserData, setPosts }) {
       </div>
 
       {preview && (
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <button
-            className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600"
             onClick={handleCancel}
             disabled={uploading}
+            className="flex items-center justify-center rounded-lg bg-[#A13333] px-4 py-2 text-white transition-all duration-200 hover:bg-[#b84747] disabled:cursor-not-allowed disabled:opacity-50"
           >
             <FontAwesomeIcon icon={faX} />
           </button>
+
           <button
-            className="rounded-lg bg-green-500 px-4 py-2 text-white hover:bg-green-600"
             onClick={handleSave}
             disabled={uploading}
+            className="flex items-center justify-center rounded-lg bg-green-500 px-4 py-2 text-white shadow-sm transition-all duration-200 hover:bg-green-600 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
           >
             {uploading ? (
               <FontAwesomeIcon icon={faSpinner} spin />

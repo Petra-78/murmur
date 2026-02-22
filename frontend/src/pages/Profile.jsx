@@ -88,7 +88,11 @@ export default function Profile() {
 
   return (
     <div className="flex min-h-dvh max-w-dvw flex-col items-center bg-gray-100 p-1 dark:bg-zinc-900">
-      <ProfileInfo userData={userData} setUserData={setUserData} />
+      <ProfileInfo
+        userData={userData}
+        setUserData={setUserData}
+        setPosts={setPosts}
+      />
       <div className="flex justify-center gap-8 py-6">
         <button
           onClick={() => setFeed("username")}

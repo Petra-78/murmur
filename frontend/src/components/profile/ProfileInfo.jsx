@@ -78,8 +78,8 @@ export default function ProfileInfo({
 
   return (
     <div className="mt-3 w-full max-w-2xl">
-      <div className="grid w-full grid-cols-[1fr_2fr_min] grid-rows-[1fr_min] items-center gap-4 rounded-2xl bg-white p-6 shadow-lg dark:bg-[#040303]/90">
-        <div className="shrink-0">
+      <div className="grid w-full grid-cols-[1fr_2fr] grid-rows-[min_1fr_min] gap-6 rounded-2xl bg-white p-6 shadow-lg md:grid-cols-[min_2fr_min] md:grid-rows-[1fr_min] md:items-center md:gap-4 dark:bg-[#040303]/90">
+        <div className="flex items-center justify-center md:justify-start">
           <ProfileImage
             profile={userData}
             setUserData={setUserData}
@@ -87,9 +87,9 @@ export default function ProfileInfo({
           />
         </div>
 
-        <div className="flex w-full flex-1 flex-col items-center gap-4">
-          <div className="mb-2">
-            <h2 className="truncate text-center text-xl font-bold text-gray-900 dark:text-gray-100">
+        <div className="flex w-full flex-col items-center gap-4 text-center md:flex-1 md:items-center md:text-center">
+          <div className="mb-2 w-full dark:text-white">
+            <h2 className="text-md truncate text-center font-bold text-gray-900 md:text-xl dark:text-gray-100">
               {userData.username}
             </h2>
 
@@ -116,39 +116,34 @@ export default function ProfileInfo({
             ) : null}
           </div>
 
-          <div className="flex w-full justify-center gap-12 text-sm">
+          <div className="flex w-full justify-around gap-6 text-sm md:justify-center md:gap-12 dark:text-white">
             <div className="flex flex-col items-center">
               <p className="font-semibold">Posts</p>
-              <p className="text-lg">{userData._count?.posts || 0}</p>
+              <p className="text-sm md:text-lg">
+                {userData._count?.posts || 0}
+              </p>
             </div>
             <div className="flex flex-col items-center">
               <p className="font-semibold">Followers</p>
-              <p className="text-lg">
+              <p className="text-sm md:text-lg">
                 {userData._count?.followers || 0}
               </p>
             </div>
             <div className="flex flex-col items-center">
               <p className="font-semibold">Following</p>
-              <p className="text-lg">
+              <p className="text-sm md:text-lg">
                 {userData._count?.following || 0}
               </p>
             </div>
           </div>
-
-          {user && user.username !== userData.username && (
-            <div className="flex w-full flex-col items-center gap-4 sm:flex-row">
-              <FollowButton userData={userData} className="w-full" />
-              <SendMessageButton />
-            </div>
-          )}
         </div>
 
         {isOwnProfile && (
-          <div className="flex justify-end gap-2">
+          <div className="col-span-2 row-start-1 flex justify-end gap-2 self-start md:col-start-3">
             {isEditing && (
               <button
                 onClick={updateUser}
-                className="rounded bg-[#A13333] px-4 py-1 text-white"
+                className="rounded-xl bg-[#A13333] px-4 py-1 text-white hover:bg-[#821f25]"
               >
                 {saving ? (
                   <FontAwesomeIcon icon={faSpinner} spin />
@@ -159,7 +154,7 @@ export default function ProfileInfo({
             )}
             <button
               onClick={() => setIsEditing(!isEditing)}
-              className="flex items-center gap-1 text-sm"
+              className="flex items-center gap-1 text-sm hover:text-[#A13333] dark:text-gray-400"
             >
               {isEditing ? (
                 "Cancel"
@@ -172,17 +167,19 @@ export default function ProfileInfo({
           </div>
         )}
 
-        <div className="col-span-3">
+        <div className="col-span-2 md:col-span-3 md:col-start-1 md:row-span-2 md:row-start-3 dark:text-white">
           {isEditing && isOwnProfile ? (
             <textarea
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               rows={1}
               maxLength={200}
-              className="w-full resize-none rounded-xl border px-3 py-2 text-sm"
+              className="w-full resize-none rounded-xl border px-3 py-2 text-sm dark:text-white"
             />
           ) : userData.bio ? (
-            <p className="px-3 text-sm">{userData.bio}</p>
+            <p className="text-left text-sm dark:text-white">
+              {userData.bio}
+            </p>
           ) : isOwnProfile ? (
             <button
               onClick={() => setIsEditing(true)}
@@ -192,6 +189,12 @@ export default function ProfileInfo({
             </button>
           ) : null}
         </div>
+        {user && user.username !== userData.username && (
+          <div className="col-span-2 row-start-3 flex w-full justify-evenly gap-4 md:col-start-2 md:row-start-2">
+            <FollowButton userData={userData} className="w-full" />
+            <SendMessageButton />
+          </div>
+        )}
       </div>
     </div>
   );
