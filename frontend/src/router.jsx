@@ -5,9 +5,10 @@ import Signup from "./pages/Signup";
 import Error from "./components/Error";
 import SinglePost from "./pages/SinglePost";
 import Profile from "./pages/Profile";
-import PostForm from "./components/posts/PostForm";
 import NewPost from "./pages/NewPost";
 import UserSearch from "./pages/UserSearch";
+import Messages from "./pages/Messages";
+import Chat from "./pages/Chat";
 
 const routes = [
   {
@@ -22,6 +23,8 @@ const routes = [
       { path: "/users/:username", element: <Profile /> },
       { path: "/posts/new", element: <NewPost /> },
       { path: "/users/search", element: <UserSearch /> },
+      { path: "/chats", element: <Messages /> },
+      { path: "/chats/:selectedUserId", element: <Chat /> },
     ],
   },
 ];
