@@ -11,19 +11,20 @@ export default function LatestUsers({ latestUsers }) {
         {latestUsers.map((u) => (
           <li
             key={u.id}
-            className="flex items-center justify-between rounded-2xl hover:bg-zinc-100 sm:gap-4 sm:px-3 dark:hover:bg-zinc-800"
+            className="flex items-center justify-between rounded-2xl px-2 hover:bg-zinc-100 dark:hover:bg-zinc-800"
           >
-            <Link to={`/users/${u.username}`}>
-              <button className="flex w-full items-center justify-start gap-2 truncate rounded-lg px-2 py-2 text-left transition-colors">
-                <img
-                  src={u.profileUrl || "/placeholder.jpeg"}
-                  alt="User profile"
-                  className="h-6 w-6 shrink-0 rounded-full object-cover sm:h-10 sm:w-10"
-                />
-                <span className="max-w-25 truncate text-gray-800 dark:text-gray-200">
-                  {u.username}
-                </span>
-              </button>
+            <Link
+              to={`/users/${u.username}`}
+              className="flex min-w-0 items-center gap-2 py-2"
+            >
+              <img
+                src={u.profileUrl || "/placeholder.jpeg"}
+                alt="User profile"
+                className="h-8 w-8 shrink-0 rounded-full object-cover"
+              />
+              <span className="max-w-22 min-w-0 truncate text-gray-800 dark:text-gray-200">
+                {u.username}
+              </span>
             </Link>
 
             {u.username !== user.username && (
