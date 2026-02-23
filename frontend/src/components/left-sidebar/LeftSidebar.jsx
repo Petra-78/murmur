@@ -1,6 +1,7 @@
 import {
   faCircleUser,
   faHouse,
+  faMessage,
   faPlusSquare,
 } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -24,7 +25,6 @@ export default function LeftSidebar() {
           </span>
         </div>
       </Link>
-
       <Link to={"/posts/new"} className="w-full">
         <div className="flex items-center gap-3 rounded-xl px-3 py-2 transition-all duration-200 hover:scale-[1.02] hover:bg-zinc-100 active:scale-95 dark:hover:bg-zinc-800">
           <FontAwesomeIcon className="text-xl" icon={faPlusSquare} />
@@ -33,7 +33,6 @@ export default function LeftSidebar() {
           </span>
         </div>
       </Link>
-
       <Link to={"/users/search"} className="w-full">
         <div className="flex items-center gap-3 rounded-xl px-3 py-2 transition-all duration-200 hover:scale-[1.02] hover:bg-zinc-100 active:scale-95 dark:hover:bg-zinc-800">
           <FontAwesomeIcon className="text-xl" icon={faSearch} />
@@ -42,12 +41,19 @@ export default function LeftSidebar() {
           </span>
         </div>
       </Link>
-
       <Link to={`/users/${user.username}`} className="w-full">
         <div className="flex items-center gap-3 rounded-xl px-3 py-2 transition-all duration-200 hover:scale-[1.02] hover:bg-zinc-100 active:scale-95 dark:hover:bg-zinc-800">
           <FontAwesomeIcon className="text-xl" icon={faCircleUser} />
           <span className="hidden text-sm font-medium lg:block">
             Profile
+          </span>
+        </div>
+      </Link>
+      <Link to={`/chats`} className="w-full">
+        <div className="flex items-center gap-3 rounded-xl px-3 py-2 transition-all duration-200 hover:scale-[1.02] hover:bg-zinc-100 active:scale-95 dark:hover:bg-zinc-800">
+          <FontAwesomeIcon className="text-xl" icon={faMessage} />
+          <span className="hidden text-sm font-medium lg:block">
+            Messages
           </span>
         </div>
       </Link>

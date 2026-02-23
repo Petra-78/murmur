@@ -192,7 +192,7 @@ export default function ProfileInfo({
         {user && user.username !== userData.username && (
           <div className="col-span-2 row-start-3 flex w-full justify-evenly gap-4 md:col-start-2 md:row-start-2">
             <FollowButton userData={userData} className="w-full" />
-            <SendMessageButton />
+            <SendMessageButton selectedUserId={userData.id} />
           </div>
         )}
       </div>
