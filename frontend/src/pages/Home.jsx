@@ -48,8 +48,8 @@ export default function Home() {
   if (mainLoading) return <Loading />;
 
   return (
-    <div className="min-h-screen w-full bg-gray-100 dark:bg-zinc-900">
-      <div className="max-w-8xl mx-auto grid w-full grid-cols-1 gap-2 px-4 py-4 lg:grid-cols-[minmax(170px,1fr)_minmax(400px,850px)_350px]">
+    <div className="flex min-h-screen w-full justify-center bg-gray-100 dark:bg-zinc-900">
+      <div className="max-w-8xl mx-auto grid grid-cols-1 gap-2 justify-self-center px-4 py-4 lg:grid-cols-[minmax(170px,300px)_minmax(400px,850px)_350px]">
         <aside className="hidden lg:block">
           <div className="sticky bottom-0 rounded-xl bg-white p-4 shadow-sm md:top-23 dark:bg-zinc-950 dark:text-white">
             <LeftSidebar />
@@ -60,7 +60,7 @@ export default function Home() {
           <LeftSidebar />
         </aside>
 
-        <main className="flex flex-col items-center">
+        <main className="flex w-full max-w-3xl flex-col items-center justify-self-center">
           <div className="sticky mb-4 flex w-full max-w-3xl justify-center gap-8 rounded-xl bg-white py-4 shadow-sm lg:top-1.5 lg:z-50 dark:bg-zinc-950">
             <button
               onClick={() => setFeed("posts")}
@@ -91,7 +91,7 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex w-full flex-col gap-4">
             <PostCards posts={posts} loading={loading} />
           </div>
         </main>

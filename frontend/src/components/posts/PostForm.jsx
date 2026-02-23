@@ -53,7 +53,7 @@ export default function PostForm() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-2xl flex-1">
+    <div className="mx-auto w-full max-w-3xl flex-1">
       <form
         onSubmit={(e) => uploadPost(e)}
         className="flex w-full flex-col gap-4 rounded-b-2xl bg-white p-4 shadow-md dark:bg-[#040303]"
