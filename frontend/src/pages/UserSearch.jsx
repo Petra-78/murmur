@@ -3,6 +3,8 @@ import { useAuth } from "../context/authContext";
 import { toast } from "react-toastify";
 import FollowButton from "../components/buttons/FollowButton";
 import { Link } from "react-router";
+import LeftSidebar from "../components/left-sidebar/LeftSidebar";
+import RightSidebar from "../components/right-sidebar/RightSidebar";
 
 export default function UserSearch() {
   const { token } = useAuth();
@@ -48,62 +50,80 @@ export default function UserSearch() {
   );
 
   return (
-    <div className="flex flex-1 justify-center">
-      <div className="flex w-full max-w-2xl flex-col rounded-lg bg-white p-2 shadow-md md:p-4 dark:bg-zinc-950">
-        <h2 className="my-4 truncate text-xl font-semibold text-gray-800 dark:text-gray-200">
-          Users
-        </h2>
+    <div className="min-h-screen w-full bg-gray-100 dark:bg-zinc-900">
+      <div className="max-w-8xl grid w-full grid-cols-1 justify-center gap-6 px-4 py-4 lg:grid-cols-[minmax(170px,1fr)_minmax(400px,850px)_350px]">
+        <aside className="hidden lg:block">
+          <div className="sticky bottom-0 rounded-xl bg-white p-4 shadow-sm md:top-23 dark:bg-zinc-950 dark:text-white">
+            <LeftSidebar />
+          </div>
+        </aside>
 
-        <input
-          type="text"
-          placeholder="Search users..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          disabled={loading}
-          className="mb-4 w-full rounded-lg border border-gray-300 p-1 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:bg-gray-100 md:px-3 md:py-2 dark:border-gray-600 dark:bg-zinc-900 dark:text-gray-200 dark:placeholder-gray-400"
-        />
+        <aside className="fixed right-0 bottom-0 left-0 z-50 bg-white p-4 shadow lg:hidden dark:bg-zinc-950">
+          <LeftSidebar />
+        </aside>
+        <div className="flex flex-1 justify-center">
+          <div className="flex w-full max-w-3xl flex-col rounded-lg bg-white p-2 shadow-md md:p-4 dark:bg-zinc-950">
+            <h2 className="my-4 truncate text-xl font-semibold text-gray-800 dark:text-gray-200">
+              Users
+            </h2>
 
-        {loading && (
-          <p className="mb-2 truncate text-sm text-gray-500 dark:text-gray-400">
-            Loading...
-          </p>
-        )}
-        {!loading && error && (
-          <p className="mb-2 truncate text-sm text-red-500 dark:text-red-400">
-            {error}
-          </p>
-        )}
-        {!loading && !error && filteredUsers.length === 0 && (
-          <p className="mb-2 truncate text-sm text-gray-500 dark:text-gray-400">
-            No users found
-          </p>
-        )}
+            <input
+              type="text"
+              placeholder="Search users..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              disabled={loading}
+              className="mb-4 w-full rounded-lg border border-gray-300 p-1 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:bg-gray-100 md:px-3 md:py-2 dark:border-gray-600 dark:bg-zinc-900 dark:text-gray-200 dark:placeholder-gray-400"
+            />
 
-        {!loading && !error && filteredUsers.length > 0 && (
-          <ul className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
-            {filteredUsers.map((u) => (
-              <li
-                key={u.id}
-                className="flex items-center justify-between rounded-2xl hover:bg-zinc-100 sm:gap-4 sm:px-3 dark:hover:bg-zinc-800"
-              >
-                <Link to={`/users/${u.username}`}>
-                  <button className="flex w-full items-center justify-start gap-2 truncate rounded-lg px-2 py-2 text-left transition-colors">
-                    <img
-                      src={u.profileUrl || "/placeholder.jpeg"}
-                      alt="User profile"
-                      className="h-6 w-6 shrink-0 rounded-full object-cover sm:h-10 sm:w-10"
-                    />
-                    <span className="truncate text-gray-800 dark:text-gray-200">
-                      {u.username}
-                    </span>
-                  </button>
-                </Link>
+            {loading && (
+              <p className="mb-2 truncate text-sm text-gray-500 dark:text-gray-400">
+                Loading...
+              </p>
+            )}
+            {!loading && error && (
+              <p className="mb-2 truncate text-sm text-red-500 dark:text-red-400">
+                {error}
+              </p>
+            )}
+            {!loading && !error && filteredUsers.length === 0 && (
+              <p className="mb-2 truncate text-sm text-gray-500 dark:text-gray-400">
+                No users found
+              </p>
+            )}
 
-                <FollowButton userData={u} />
-              </li>
-            ))}
-          </ul>
-        )}
+            {!loading && !error && filteredUsers.length > 0 && (
+              <ul className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
+                {filteredUsers.map((u) => (
+                  <li
+                    key={u.id}
+                    className="flex items-center justify-between rounded-2xl hover:bg-zinc-100 sm:gap-4 sm:px-3 dark:hover:bg-zinc-800"
+                  >
+                    <Link to={`/users/${u.username}`}>
+                      <button className="flex w-full items-center justify-start gap-2 truncate rounded-lg px-2 py-2 text-left transition-colors">
+                        <img
+                          src={u.profileUrl || "/placeholder.jpeg"}
+                          alt="User profile"
+                          className="h-6 w-6 shrink-0 rounded-full object-cover sm:h-10 sm:w-10"
+                        />
+                        <span className="max-w-25 truncate text-gray-800 dark:text-gray-200">
+                          {u.username}
+                        </span>
+                      </button>
+                    </Link>
+
+                    <FollowButton userData={u} />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+        <aside className="hidden max-w-md lg:block">
+          <div className="sticky top-23 rounded-2xl bg-white p-2 shadow-sm dark:bg-zinc-950">
+            <RightSidebar />
+          </div>
+        </aside>
       </div>
     </div>
   );

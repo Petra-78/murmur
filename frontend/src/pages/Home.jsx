@@ -4,6 +4,7 @@ import PostCards from "../components/posts/PostCards";
 import { useState, useEffect } from "react";
 import Loading from "../components/Loading";
 import RightSidebar from "../components/right-sidebar/RightSidebar";
+import LeftSidebar from "../components/left-sidebar/LeftSidebar";
 
 export default function Home() {
   const { user, token, authLoading } = useAuth();
@@ -48,19 +49,19 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full bg-gray-100 dark:bg-zinc-900">
-      <div className="max-w-8xl grid w-full grid-cols-1 justify-center gap-6 px-4 py-4 lg:grid-cols-[250px_minmax(0,1fr)_min-content]">
+      <div className="max-w-8xl mx-auto grid w-full grid-cols-1 gap-2 px-4 py-4 lg:grid-cols-[minmax(170px,1fr)_minmax(400px,850px)_350px]">
         <aside className="hidden lg:block">
           <div className="sticky bottom-0 rounded-xl bg-white p-4 shadow-sm md:top-23 dark:bg-zinc-950 dark:text-white">
-            Left sidebar
+            <LeftSidebar />
           </div>
         </aside>
 
         <aside className="fixed right-0 bottom-0 left-0 z-50 bg-white p-4 shadow lg:hidden dark:bg-zinc-950">
-          Mobile Bottom Bar
+          <LeftSidebar />
         </aside>
 
         <main className="flex flex-col items-center">
-          <div className="sticky top-1.5 z-50 mb-4 flex w-full max-w-3xl justify-center gap-8 rounded-xl bg-white py-4 shadow-sm dark:bg-zinc-950">
+          <div className="sticky mb-4 flex w-full max-w-3xl justify-center gap-8 rounded-xl bg-white py-4 shadow-sm lg:top-1.5 lg:z-50 dark:bg-zinc-950">
             <button
               onClick={() => setFeed("posts")}
               className={`relative px-3 pb-2 text-sm font-medium transition-colors duration-200 ${
