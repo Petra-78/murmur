@@ -63,6 +63,7 @@ export async function getUser(req, res) {
         username: username,
       },
       select: {
+        id: true,
         username: true,
         profileUrl: true,
         bio: true,
