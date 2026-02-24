@@ -3,7 +3,7 @@ import RightSidebar from "../components/right-sidebar/RightSidebar";
 import ChatWindow from "../components/chats/ChatWindow";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/authContext";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -57,14 +57,19 @@ export default function Chat() {
               <FontAwesomeIcon icon={faArrowLeft} />
             </button>
             <div className="flex justify-center gap-3">
-              <img
-                src={userData?.profileUrl || "/placeholder.jpeg"}
-                alt="profile picture"
-                className="h-10 w-10 rounded-full object-cover"
-              />
-              <p className="self-center dark:text-white">
-                {userData?.username || "Unknown User"}
-              </p>
+              <Link
+                to={`/users/${userData?.username}`}
+                className="flex justify-center gap-3"
+              >
+                <img
+                  src={userData?.profileUrl || "/placeholder.jpeg"}
+                  alt="profile picture"
+                  className="h-10 w-10 rounded-full object-cover"
+                />
+                <p className="self-center dark:text-white">
+                  {userData?.username || "Unknown User"}
+                </p>
+              </Link>
             </div>
           </div>
 

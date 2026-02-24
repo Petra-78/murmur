@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import DeleteButton from "../buttons/DeleteButton";
@@ -30,18 +30,23 @@ export default function PostCard({ post }) {
         className="relative flex w-full flex-col gap-3 bg-white/90 p-4 shadow-lg shadow-red-800/20 transition-all duration-300 hover:shadow-2xl dark:bg-[#040303]/90"
       >
         <div className="flex items-center gap-2">
-          <img
-            className="h-10 w-10 rounded-full object-cover"
-            src={post.author.profileUrl || "/placeholder.jpeg"}
-            alt="profile picture"
-          />
-          <div className="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-300">
-            <p className="font-semibold">{post.author.username}</p>
-            <span>·</span>
-            <span className="text-xs">
-              {formatDate(post.createdAt)}
-            </span>
-          </div>
+          <Link
+            to={`/users/${post.author.username}`}
+            className="flex items-center gap-2"
+          >
+            <img
+              className="h-10 w-10 rounded-full object-cover"
+              src={post.author.profileUrl || "/placeholder.jpeg"}
+              alt="profile picture"
+            />
+            <div className="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-300">
+              <p className="font-semibold">{post.author.username}</p>
+              <span>·</span>
+              <span className="text-xs">
+                {formatDate(post.createdAt)}
+              </span>
+            </div>
+          </Link>
           {post.author.id === user.id && (
             <div className="ml-auto">
               <DeleteButton content={"posts"} id={post.id} />
