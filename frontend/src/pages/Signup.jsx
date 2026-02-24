@@ -20,8 +20,23 @@ export default function Signup() {
   const navigate = useNavigate();
 
   const validateUsername = (value) => {
-    if (value.trim().length < 3)
-      return "Username must be at least 3 characters";
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return "Username is required";
+    }
+    if (trimmed.includes(" ")) {
+      return "Username cannot contain spaces";
+    }
+    if (trimmed !== trimmed.toLowerCase()) {
+      return "Username must be lowercase only";
+    }
+    if (trimmed.length < 3 || trimmed.length > 20) {
+      return "Username must be between 3 and 20 characters";
+    }
+    if (!/^[a-z0-9._-]+$/.test(trimmed)) {
+      return "Username can only contain lowercase letters, numbers, '.', '_' and '-'";
+    }
+
     return "";
   };
 
@@ -58,6 +73,26 @@ export default function Signup() {
       const data = await res.json();
 
       if (!res.ok) {
+        if (data.errors) {
+          setUsernameError("");
+          setEmailError("");
+          setPasswordError("");
+
+          data.errors.forEach((err) => {
+            if (err.path === "username") {
+              setUsernameError(err.msg);
+            }
+            if (err.path === "email") {
+              setEmailError(err.msg);
+            }
+            if (err.path === "password") {
+              setPasswordError(err.msg);
+            }
+          });
+
+          return;
+        }
+
         throw new Error(data.message || "Signup failed");
       }
 
