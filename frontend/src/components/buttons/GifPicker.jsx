@@ -55,7 +55,7 @@ export default function GifPicker({ onSelectGif, onClose }) {
             placeholder="Search GIFs..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 rounded-lg bg-zinc-900 p-2 text-sm"
+            className="flex-1 rounded-lg bg-zinc-200 p-2 text-sm dark:bg-zinc-900"
           />
           <button
             onClick={(e) => handleSearch(e)}
