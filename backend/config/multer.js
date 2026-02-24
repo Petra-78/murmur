@@ -10,11 +10,12 @@ export const upload = multer({
     if (
       file.mimetype === "image/jpeg" ||
       file.mimetype === "image/png" ||
-      file.mimetype === "image/jpg"
+      file.mimetype === "image/jpg" ||
+      file.mimetype === "image/gif"
     ) {
       cb(null, true);
     } else {
-      cb(new Error("Only JPG and PNG images are allowed"));
+      cb(new Error("Only JPG, PNG, and GIF images are allowed"));
     }
   },
 });

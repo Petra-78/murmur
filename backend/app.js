@@ -12,6 +12,7 @@ import { followRouter } from "./routes/followRouter.js";
 import { postRouter } from "./routes/postRouter.js";
 import { commentRouter } from "./routes/commentRouter.js";
 import { chatRouter } from "./routes/chatRouter.js";
+import { giphyRouter } from "./routes/giphyRouter.js";
 
 export const app = express();
 
@@ -51,7 +52,7 @@ app.use(
   commentRouter,
 );
 app.use("/chats", passport.authenticate("jwt", { session: false }), chatRouter);
-
+app.use("/gifs", passport.authenticate("jwt", { session: false }), giphyRouter);
 server.listen(process.env.PORT, (error) => {
   if (error) {
     throw error;

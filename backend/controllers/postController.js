@@ -288,7 +288,7 @@ export async function deletePost(req, res) {
 export async function uploadPost(req, res) {
   debugger;
   const { id } = req.user;
-  const { content } = req.body;
+  const { content, gifUrl } = req.body;
 
   try {
     let imageUrl = null;
@@ -304,6 +304,13 @@ export async function uploadPost(req, res) {
         );
         stream.end(req.file.buffer);
       });
+    }
+
+    if (gifUrl) {
+      imageUrl = gifUrl;
+    }
+    if (!imageUrl && !content) {
+      return res.status(400).json({ message: "Post cannot be empty" });
     }
 
     const post = await prisma.post.create({
