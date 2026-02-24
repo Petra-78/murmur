@@ -8,6 +8,7 @@ import {
   getUser,
   getUsers,
   updateUser,
+  getUserById,
   uploadProfilePicture,
 } from "../controllers/userController.js";
 
@@ -15,6 +16,7 @@ router.get("/", getUsers);
 router.get("/me", getProfile);
 router.get("/recent", getRecentUsers);
 router.get("/popular", getPopularUsers);
+router.get("/id/:selectedUserId", getUserById);
 router.get("/:username", getUser);
 
 router.put("/me/update", updateUser);

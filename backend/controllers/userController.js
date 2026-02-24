@@ -87,6 +87,32 @@ export async function getUser(req, res) {
   }
 }
 
+export async function getUserById(req, res) {
+  const selectedUserId = Number(req.params.selectedUserId);
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: selectedUserId,
+      },
+      select: {
+        id: true,
+        username: true,
+        profileUrl: true,
+        bio: true,
+        nickName: true,
+        followers: {
+          where: { followerId: req.user.id },
+          select: { id: true },
+        },
+      },
+    });
+    res.json({ user });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export async function getRecentUsers(req, res) {
   const { id } = req.user;
 
