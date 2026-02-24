@@ -145,7 +145,7 @@ export default function ProfileInfo({
         </div>
 
         {isOwnProfile && (
-          <div className="col-span-2 row-start-1 flex justify-end gap-2 self-start md:col-start-3">
+          <div className="col-span-2 row-start-1 flex justify-start gap-2 self-start md:col-start-3">
             {isEditing && (
               <button
                 onClick={updateUser}
