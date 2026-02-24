@@ -38,7 +38,7 @@ export default function Chat() {
   }, [selectedUserId, token]);
   return (
     <div className="flex w-full flex-1 justify-center overflow-hidden bg-gray-100 dark:bg-zinc-900">
-      <div className="max-w-8xl mx-auto grid max-h-[85vh] grid-cols-1 justify-center gap-6 lg:h-[83vh] lg:grid-cols-[minmax(170px,300px)_minmax(400px,850px)_350px] lg:px-4 lg:py-2">
+      <div className="max-w-8xl mx-auto grid flex-1 grid-cols-1 justify-center gap-6 lg:grid-cols-[minmax(170px,300px)_minmax(400px,850px)_350px] lg:px-4 lg:py-2">
         <aside className="hidden lg:block">
           <div className="rounded-xl bg-white p-4 shadow-sm md:top-23 dark:bg-zinc-950 dark:text-white">
             <LeftSidebar />
@@ -48,7 +48,7 @@ export default function Chat() {
         <aside className="fixed right-0 bottom-0 left-0 z-50 bg-white p-3 shadow lg:hidden dark:bg-zinc-950">
           <LeftSidebar />
         </aside>
-        <div className="flex min-h-0 flex-1 flex-col">
+        <div className="flex h-[calc(100vh-137px)] min-h-0 flex-col">
           <div className="flex w-full gap-4 border-b border-[#A13333] bg-white/90 p-3 dark:bg-[#040303]/90">
             <button
               className="flex items-center gap-3 text-zinc-900 transition-colors duration-200 hover:text-[#A13333] dark:text-gray-300"
@@ -62,7 +62,7 @@ export default function Chat() {
                 alt="profile picture"
                 className="h-10 w-10 rounded-full object-cover"
               />
-              <p className="self-center">
+              <p className="self-center dark:text-white">
                 {userData?.username || "Unknown User"}
               </p>
             </div>

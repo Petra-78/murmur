@@ -30,7 +30,7 @@ export default function MessageInput({
           placeholder="Type a message..."
           disabled={sending}
           onKeyDown={handleTyping}
-          className={`w-full rounded-full bg-transparent px-4 py-2 text-sm placeholder-gray-400 outline-none dark:placeholder-gray-500`}
+          className={`w-full rounded-full bg-transparent px-4 py-2 text-sm placeholder-gray-400 outline-none dark:text-white dark:placeholder-gray-500`}
         />
       </div>
 

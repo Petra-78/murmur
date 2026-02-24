@@ -15,7 +15,7 @@ export default function Navbar() {
     navigate("/login");
   };
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between border-b border-[#e5d6d3] bg-white/80 px-2 py-4 backdrop-blur-xl transition-colors duration-500 md:px-6 dark:border-[#461111] dark:bg-[#040303]">
+    <header className="sticky top-0 z-50 flex min-h-19.25 items-center justify-between border-b border-[#e5d6d3] bg-white/80 px-2 py-4 backdrop-blur-xl transition-colors duration-500 md:px-6 dark:border-[#461111] dark:bg-[#040303]">
       <div className="flex items-center gap-2">
         <Link
           to="/"
