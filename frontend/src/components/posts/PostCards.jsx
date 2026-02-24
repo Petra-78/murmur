@@ -70,7 +70,9 @@ export default function PostCards({ posts, loading }) {
                 likes={post._count.likes}
                 isLiked={post.likes.length > 0}
               />
-              <CommentButton comments={post._count.comments} />
+              <Link to={`/posts/${post.id}`}>
+                <CommentButton comments={post._count.comments} />
+              </Link>
             </div>
           </div>
         ))}
