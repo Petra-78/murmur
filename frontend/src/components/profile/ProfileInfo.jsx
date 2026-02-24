@@ -78,7 +78,7 @@ export default function ProfileInfo({
 
   return (
     <div className="w-full max-w-3xl">
-      <div className="grid w-full grid-cols-[1fr_2fr] grid-rows-[min_1fr_min] gap-6 rounded-2xl bg-white p-6 shadow-lg md:grid-cols-[min_2fr_min] md:grid-rows-[1fr_min] md:items-center md:gap-4 dark:bg-[#040303]/90">
+      <div className="grid w-full grid-cols-[1fr_2fr] grid-rows-[min_1fr_min] gap-3 rounded-2xl bg-white p-6 shadow-lg md:grid-cols-[min_2fr_min] md:grid-rows-[1fr_min] md:items-center md:gap-4 dark:bg-[#040303]/90">
         <div className="flex items-center justify-center md:justify-start">
           <ProfileImage
             profile={userData}
@@ -116,21 +116,27 @@ export default function ProfileInfo({
             ) : null}
           </div>
 
-          <div className="flex w-full justify-around gap-6 text-sm md:justify-center md:gap-12 dark:text-white">
+          <div className="flex w-full justify-around gap-4 text-sm md:justify-center md:gap-12 dark:text-white">
             <div className="flex flex-col items-center">
-              <p className="font-semibold">Posts</p>
+              <p className="text-[12px] font-semibold md:text-[15px]">
+                Posts
+              </p>
               <p className="text-sm md:text-lg">
                 {userData._count?.posts || 0}
               </p>
             </div>
             <div className="flex flex-col items-center">
-              <p className="font-semibold">Followers</p>
+              <p className="text-[12px] font-semibold md:text-[15px]">
+                Followers
+              </p>
               <p className="text-sm md:text-lg">
                 {userData._count?.followers || 0}
               </p>
             </div>
             <div className="flex flex-col items-center">
-              <p className="font-semibold">Following</p>
+              <p className="text-[12px] font-semibold md:text-[15px]">
+                Following
+              </p>
               <p className="text-sm md:text-lg">
                 {userData._count?.following || 0}
               </p>

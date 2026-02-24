@@ -103,11 +103,11 @@ export function ProfileImage({ profile, setUserData, setPosts }) {
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className="group relative h-20 w-20 cursor-pointer md:h-40 md:w-40">
+      <div className="group relative h-18 w-18 cursor-pointer md:h-40 md:w-40">
         <img
           src={preview || profile?.profileUrl || "/placeholder.jpeg"}
           alt="Profile picture"
-          className="h-20 w-20 rounded-full object-cover md:h-40 md:w-40"
+          className="h-18 w-18 rounded-full object-cover md:h-40 md:w-40"
         />
 
         {isOwnProfile && (
