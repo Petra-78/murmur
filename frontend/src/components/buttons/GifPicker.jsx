@@ -48,14 +48,14 @@ export default function GifPicker({ onSelectGif, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="h-[70vh] w-full max-w-md rounded-lg bg-white p-4 dark:bg-zinc-900">
+      <div className="h-[70vh] w-full max-w-md rounded-lg bg-white p-4 dark:bg-zinc-950 dark:text-white">
         <div className="mb-2 flex gap-2">
           <input
             type="text"
             placeholder="Search GIFs..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 rounded-lg border p-2 text-sm"
+            className="flex-1 rounded-lg bg-zinc-900 p-2 text-sm"
           />
           <button
             onClick={(e) => handleSearch(e)}

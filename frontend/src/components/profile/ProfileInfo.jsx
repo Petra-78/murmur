@@ -77,7 +77,7 @@ export default function ProfileInfo({
     return <p className="dark:text-white">Failed to fetch user.</p>;
 
   return (
-    <div className="mt-3 w-full max-w-2xl">
+    <div className="w-full max-w-3xl">
       <div className="grid w-full grid-cols-[1fr_2fr] grid-rows-[min_1fr_min] gap-6 rounded-2xl bg-white p-6 shadow-lg md:grid-cols-[min_2fr_min] md:grid-rows-[1fr_min] md:items-center md:gap-4 dark:bg-[#040303]/90">
         <div className="flex items-center justify-center md:justify-start">
           <ProfileImage

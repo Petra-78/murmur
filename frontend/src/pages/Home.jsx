@@ -18,7 +18,6 @@ export default function Home() {
 
     async function fetchPosts() {
       setLoading(true);
-      console.log("send req");
       let url =
         feed === "following"
           ? "https://murmur-production.up.railway.app/posts/following"
@@ -28,9 +27,9 @@ export default function Home() {
         const res = await fetch(url, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("recieve res, " + url);
+
         const data = await res.json();
-        console.log(data);
+
         setPosts(data);
       } catch (err) {
         console.error(err);

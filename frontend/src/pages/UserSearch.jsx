@@ -15,7 +15,6 @@ export default function UserSearch() {
 
   useEffect(() => {
     async function fetchUsers() {
-      debugger;
       try {
         const res = await fetch(
           "https://murmur-production.up.railway.app/users",

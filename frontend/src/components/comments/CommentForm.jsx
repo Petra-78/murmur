@@ -70,7 +70,7 @@ export default function CommentForm({ setRefreshComments }) {
         </button>
       </form>
 
-      <p className="mt-1 text-right text-xs text-gray-500 dark:text-gray-400">
+      <p className="mt-1 px-2 text-right text-xs text-gray-500 dark:text-gray-400">
         {content.length}/300
       </p>
     </div>

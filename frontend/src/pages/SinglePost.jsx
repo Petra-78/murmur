@@ -5,6 +5,7 @@ import PostCard from "../components/posts/PostCard";
 import Comments from "../components/comments/Comments";
 import CommentForm from "../components/comments/CommentForm";
 import Loading from "../components/Loading";
+import LeftSidebar from "../components/left-sidebar/LeftSidebar";
 
 export default function SinglePost() {
   const { user, token, authLoading } = useAuth();
@@ -65,6 +66,9 @@ export default function SinglePost() {
 
   return (
     <div className="flex flex-1 flex-col items-center bg-gray-100 dark:bg-zinc-900">
+      <aside className="fixed right-0 bottom-0 left-0 z-50 bg-white p-4 shadow lg:hidden dark:bg-zinc-950">
+        <LeftSidebar />
+      </aside>
       <div className="w-full max-w-2xl">
         <PostCard post={post} />
         <CommentForm setRefreshComments={setRefreshComments} />

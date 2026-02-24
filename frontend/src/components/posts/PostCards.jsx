@@ -19,7 +19,7 @@ export default function PostCards({ posts, loading }) {
         posts.map((post) => (
           <div
             key={post.id}
-            className="relative my-4 flex w-full max-w-3xl cursor-pointer flex-col gap-3 rounded-3xl bg-white/90 p-6 shadow-lg shadow-red-800/20 transition-all duration-300 hover:shadow-2xl dark:bg-[#040303]/90"
+            className="relative flex w-full max-w-3xl cursor-pointer flex-col gap-3 rounded-3xl bg-white/90 px-4 py-3 shadow-lg shadow-red-800/20 transition-all duration-300 hover:shadow-2xl md:my-4 md:p-6 dark:bg-[#040303]/90"
           >
             <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
               <Link

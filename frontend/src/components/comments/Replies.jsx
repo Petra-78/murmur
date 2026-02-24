@@ -14,7 +14,6 @@ export default function Replies({
   activeReplyId,
   setActiveReplyId,
 }) {
-  debugger;
   const { user } = useAuth();
   return (
     <div className="mt-2 ml-8 flex flex-col gap-3">

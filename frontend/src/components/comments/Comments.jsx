@@ -19,7 +19,6 @@ export default function Comments({
   const [activeReplyId, setActiveReplyId] = useState(null);
   const [showReplyId, setShowReplyId] = useState(null);
 
-  debugger;
   if (comments.length === 0)
     return (
       <p className="mb-4 py-6 dark:text-white">No comments yet.</p>

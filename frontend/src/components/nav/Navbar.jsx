@@ -15,17 +15,21 @@ export default function Navbar() {
     navigate("/login");
   };
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between border-b border-[#e5d6d3] bg-white/80 px-6 py-4 backdrop-blur-xl transition-colors duration-500 dark:border-[#461111] dark:bg-[#040303]">
+    <header className="sticky top-0 z-50 flex items-center justify-between border-b border-[#e5d6d3] bg-white/80 px-2 py-4 backdrop-blur-xl transition-colors duration-500 md:px-6 dark:border-[#461111] dark:bg-[#040303]">
       <div className="flex items-center gap-2">
         <Link
           to="/"
           className="text-md font-semibold tracking-wide text-[#A13333] transition hover:text-[#B3541E] md:text-2xl dark:text-[#A13333] dark:hover:text-[#B3541E]"
         >
-          Murmur
+          <img
+            src="/logo.png"
+            alt="murmur logo"
+            className="h-8 md:h-10"
+          />
         </Link>
       </div>
 
-      <div className="flex items-center gap-4 md:gap-6">
+      <div className="flex items-center gap-3 md:gap-6">
         {user ? (
           <>
             <Link to={`/users/${user.username}`}>
@@ -47,14 +51,14 @@ export default function Navbar() {
           <>
             <Link
               to="/login"
-              className="rounded-xl bg-[#B3541E] p-2 font-medium text-white transition hover:bg-[#9f4719] md:px-4 md:py-2 dark:bg-[#A13333] dark:hover:bg-[#8c2a2a]"
+              className="rounded-xl bg-[#B3541E] px-4 py-1 text-[12px] font-medium text-white transition hover:bg-[#9f4719] md:py-2 md:text-base dark:bg-[#A13333] dark:hover:bg-[#8c2a2a]"
             >
               Login
             </Link>
 
             <Link
               to="/signup"
-              className="rounded-xl border border-[#A13333] p-2 font-medium text-[#A13333] transition hover:bg-[#A13333] hover:text-white md:px-4 md:py-2 dark:border-[#B3541E] dark:text-[#B3541E] dark:hover:bg-[#B3541E] dark:hover:text-white"
+              className="rounded-xl border border-[#A13333] px-4 py-1 text-[12px] font-medium text-[#A13333] transition hover:bg-[#A13333] hover:text-white md:py-2 md:text-base dark:border-[#B3541E] dark:text-[#B3541E] dark:hover:bg-[#B3541E] dark:hover:text-white"
             >
               Sign up
             </Link>

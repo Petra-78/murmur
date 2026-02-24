@@ -68,7 +68,7 @@ export default function PostForm() {
           value={content}
           maxLength={2000}
           onChange={(e) => setContent(e.target.value)}
-          className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm transition outline-none focus:border-[#A13333] dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder-gray-300"
+          className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm transition outline-none focus:border-[#A13333] md:text-lg dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder-gray-300"
           rows={4}
         />
 
