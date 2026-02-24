@@ -48,10 +48,10 @@ export default function Home() {
   if (mainLoading) return <Loading />;
 
   return (
-    <div className="flex min-h-screen w-full justify-center bg-gray-100 dark:bg-zinc-900">
-      <div className="max-w-8xl mx-auto grid grid-cols-1 gap-2 justify-self-center px-4 py-4 lg:grid-cols-[minmax(170px,300px)_minmax(400px,850px)_350px]">
+    <div className="w-full flex-1 bg-gray-100 dark:bg-zinc-900">
+      <div className="max-w-8xl grid w-full grid-cols-1 justify-center gap-2 px-4 py-2 lg:mx-auto lg:grid-cols-[minmax(170px,300px)_minmax(400px,850px)_350px]">
         <aside className="hidden lg:block">
-          <div className="sticky bottom-0 rounded-xl bg-white p-4 shadow-sm md:top-23 dark:bg-zinc-950 dark:text-white">
+          <div className="sticky top-20 w-full rounded-xl bg-white p-4 shadow-sm dark:bg-zinc-950 dark:text-white">
             <LeftSidebar />
           </div>
         </aside>
@@ -96,8 +96,8 @@ export default function Home() {
           </div>
         </main>
 
-        <aside className="hidden max-w-md lg:block">
-          <div className="sticky top-23 rounded-2xl bg-white p-2 shadow-sm dark:bg-zinc-950">
+        <aside className="hidden lg:block">
+          <div className="sticky top-20 rounded-2xl bg-white p-2 shadow-sm dark:bg-zinc-950">
             <RightSidebar />
           </div>
         </aside>

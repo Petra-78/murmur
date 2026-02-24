@@ -63,7 +63,7 @@ function App() {
   if (authLoading) return <div>Loading...</div>;
   return (
     <>
-      <div className="flex min-h-screen flex-col bg-gray-100 dark:bg-zinc-900">
+      <div className="flex flex-1 flex-col bg-gray-100 dark:bg-zinc-900">
         <Navbar />
         <Outlet
           className="min-h-0 flex-1"

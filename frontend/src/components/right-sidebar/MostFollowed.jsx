@@ -5,7 +5,7 @@ import { useAuth } from "../../context/authContext";
 export default function MostFollowed({ popularUsers }) {
   const { user } = useAuth();
   return (
-    <div className="flex flex-col bg-white p-4 dark:bg-zinc-950">
+    <div className="flex flex-col bg-white px-4 py-2 dark:bg-zinc-950">
       <h2 className="text-lg font-bold">Most Popular Users</h2>
       <ul className="mt-2">
         {popularUsers.map((u) => (

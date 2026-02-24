@@ -16,7 +16,7 @@ export default function MessageList({
   }
 
   return (
-    <div className="mb-4 flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
+    <div className="mb-4 flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d9c2be] dark:[&::-webkit-scrollbar-thumb]:bg-[#A13333]/40 [&::-webkit-scrollbar-track]:bg-transparent">
       {messages.length === 0 && (
         <div className="mt-4 text-center text-sm text-gray-500">
           No messages yet.

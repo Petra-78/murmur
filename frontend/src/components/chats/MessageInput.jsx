@@ -16,13 +16,13 @@ export default function MessageInput({
   return (
     <form
       onSubmit={onSubmit}
-      className="flex items-center rounded-full border border-zinc-200 bg-zinc-100 px-2 shadow-sm"
+      className="flex items-center gap-2 rounded-full border border-[#e5d6d3] bg-white/80 px-3 py-2 shadow-sm backdrop-blur-md transition-colors duration-300 dark:border-[#A13333]/30 dark:bg-[#040303]/50"
     >
-      <div className="flex items-center gap-1 pl-1">
+      <div className="flex items-center">
         <ImageUploader onSelect={onImageSelect} disabled={sending} />
       </div>
 
-      <div className="flex-1 px-1">
+      <div className="flex-1">
         <input
           type="text"
           value={content}
@@ -30,18 +30,14 @@ export default function MessageInput({
           placeholder="Type a message..."
           disabled={sending}
           onKeyDown={handleTyping}
-          className={`w-full rounded-full border px-3 py-2 focus:outline-none ${
-            sending
-              ? "border-gray-400 bg-gray-100"
-              : "border-gray-300 bg-white"
-          }`}
+          className={`w-full rounded-full bg-transparent px-4 py-2 text-sm placeholder-gray-400 outline-none dark:placeholder-gray-500`}
         />
       </div>
 
       <button
         type="submit"
         disabled={sending}
-        className="md:text-md flex items-center justify-center rounded-full bg-blue-600 p-2 text-sm text-white transition hover:bg-blue-700 md:p-3"
+        className="flex items-center justify-center rounded-full bg-linear-to-r from-[#B3541E] to-[#A13333] p-2 text-white shadow-md transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-60 md:p-3 dark:from-[#A13333] dark:to-[#B3541E]"
       >
         {sending ? (
           <FontAwesomeIcon icon={faSpinner} spin />

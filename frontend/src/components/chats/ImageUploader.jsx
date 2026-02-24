@@ -14,7 +14,7 @@ export default function ImagePicker({ onSelect }) {
       <button
         type="button"
         onClick={() => inputRef.current.click()}
-        className="relative cursor-pointer rounded-full p-1 text-xl text-zinc-600 transition-colors duration-200 hover:text-blue-700 sm:p-3"
+        className="relative cursor-pointer rounded-full pl-3 text-xl text-zinc-600 transition-colors duration-200 hover:text-[#A13333]"
         title="Upload image"
         aria-label="Upload image"
       >

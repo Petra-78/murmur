@@ -116,6 +116,7 @@ export default function ChatWindow() {
           body: formData,
         },
       );
+      debugger;
 
       const data = await res.json();
 
@@ -127,6 +128,7 @@ export default function ChatWindow() {
 
       if (messages.length === 0 && data.chatId) {
         joinChat(data.chatId);
+        setMessages((prev) => [...prev, data]);
       }
 
       setContent("");
@@ -156,7 +158,7 @@ export default function ChatWindow() {
   };
 
   return (
-    <div className="flex h-8/10 min-h-0 flex-col rounded-lg bg-gray-50 p-2 shadow-md sm:p-4 lg:h-full dark:bg-zinc-950">
+    <div className="flex min-h-0 flex-1 flex-col rounded-lg bg-gray-50 p-2 pr-0 shadow-md lg:h-full dark:bg-zinc-950">
       <MessageList
         messages={messages}
         currentUser={user}

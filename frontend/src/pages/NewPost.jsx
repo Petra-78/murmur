@@ -8,10 +8,10 @@ import RightSidebar from "../components/right-sidebar/RightSidebar";
 export default function NewPost() {
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen w-full bg-gray-100 dark:bg-zinc-900">
-      <div className="max-w-8xl grid w-full grid-cols-1 justify-center gap-6 px-4 py-4 lg:grid-cols-[minmax(170px,300px)_minmax(400px,850px)_350px]">
-        <aside className="hidden lg:block">
-          <div className="sticky bottom-0 rounded-xl bg-white p-4 shadow-sm md:top-23 dark:bg-zinc-950 dark:text-white">
+    <div className="w-full flex-1 bg-gray-100 dark:bg-zinc-900">
+      <div className="max-w-8xl grid w-full grid-cols-1 justify-center gap-6 px-4 py-2 lg:grid-cols-[minmax(170px,300px)_minmax(400px,850px)_350px]">
+        <aside className="hidden h-min w-full lg:flex">
+          <div className="sticky bottom-0 w-full rounded-xl bg-white p-4 shadow-sm md:top-23 dark:bg-zinc-950 dark:text-white">
             <LeftSidebar />
           </div>
         </aside>

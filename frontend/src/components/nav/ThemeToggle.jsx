@@ -27,12 +27,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={() => setDark((prev) => !prev)}
-      className="
-      px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
-
-      bg-[#f3ece7] text-gray-800 hover:scale-105
-      dark:bg-[#461111] dark:text-gray-100
-      "
+      className="rounded-full bg-[#f3ece7] px-3 py-1 text-[12px] font-medium text-gray-800 transition-all duration-300 hover:scale-105 md:px-4 md:py-2 md:text-sm dark:bg-[#461111] dark:text-gray-100"
     >
       {dark ? (
         <FontAwesomeIcon icon={faSun} />

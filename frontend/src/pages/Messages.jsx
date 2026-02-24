@@ -7,11 +7,12 @@ import { useNavigate } from "react-router";
 
 export default function Messages() {
   const navigate = useNavigate();
+
   return (
-    <div className="min-h-screen w-full bg-gray-100 dark:bg-zinc-900">
-      <div className="max-w-8xl grid w-full grid-cols-1 justify-center gap-6 px-4 py-4 lg:grid-cols-[minmax(170px,300px)_minmax(400px,850px)_350px]">
-        <aside className="hidden lg:block">
-          <div className="sticky bottom-0 rounded-xl bg-white p-4 shadow-sm md:top-23 dark:bg-zinc-950 dark:text-white">
+    <div className="w-full flex-1 bg-gray-100 dark:bg-zinc-900">
+      <div className="max-w-8xl grid w-full grid-cols-1 justify-center gap-6 lg:grid-cols-[minmax(170px,300px)_minmax(400px,850px)_350px] lg:px-4 lg:py-2">
+        <aside className="hidden h-min w-full lg:flex">
+          <div className="sticky bottom-0 w-full rounded-xl bg-white p-4 shadow-sm md:top-23 dark:bg-zinc-950 dark:text-white">
             <LeftSidebar />
           </div>
         </aside>
@@ -23,7 +24,7 @@ export default function Messages() {
           <div className="flex w-full max-w-3xl flex-col items-center">
             <div className="w-full border-b border-[#A13333] bg-white/90 p-3 dark:bg-[#040303]/90">
               <button
-                className="flex items-center gap-3 text-zinc-900 transition-colors duration-200 hover:text-[#A13333] dark:text-gray-300"
+                className="sticky top-4 flex items-center gap-3 text-zinc-900 transition-colors duration-200 hover:text-[#A13333] dark:text-gray-300"
                 onClick={() => navigate(-1)}
               >
                 <FontAwesomeIcon icon={faArrowLeft} />
