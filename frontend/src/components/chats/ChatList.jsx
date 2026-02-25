@@ -3,7 +3,7 @@ import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 
 export default function ChatList() {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const [chats, setChats] = useState([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -17,7 +17,9 @@ export default function ChatList() {
             headers: { Authorization: `Bearer ${token}` },
           },
         );
+
         const data = await res.json();
+        debugger;
         setChats(data);
         setLoading(false);
       } catch (err) {
@@ -66,7 +68,21 @@ export default function ChatList() {
               </div>
 
               <div className="max-w-35 truncate text-left text-sm text-gray-500 dark:text-gray-400">
-                {chat.lastMessage?.content || "No messages yet"}
+                {(() => {
+                  const last = chat.lastMessage;
+
+                  if (!last) return "No messages yet";
+
+                  if (last.content) return last.content;
+
+                  if (last.imageUrl) {
+                    return last.userId === user.id
+                      ? "You sent an image"
+                      : `${chat.otherUser?.username || "Unknown"} sent an image`;
+                  }
+
+                  return "No messages yet";
+                })()}
               </div>
             </div>
           </div>
